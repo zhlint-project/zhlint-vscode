@@ -10,14 +10,12 @@ import {
 	ProposedFeatures,
 	InitializeParams,
 	DidChangeConfigurationNotification,
-	CompletionItem,
-	CompletionItemKind,
-	TextDocumentPositionParams,
 	TextDocumentSyncKind,
 	InitializeResult,
-	CodeAction,
-	CodeActionKind,
-	CodeActionParams
+	TextDocumentEdit,
+	TextEdit,
+	Position,
+	Range,
 } from 'vscode-languageserver/node';
 
 import {
@@ -59,10 +57,7 @@ connection.onInitialize((params: InitializeParams) => {
 			// 暂时不用quickfix, 因为修复是针对全局的，而不是局部的，局部修复并不知道具体的字符
 			// codeActionProvider: true,
 			textDocumentSync: TextDocumentSyncKind.Incremental,
-			// Tell the client that this server supports code completion.
-			completionProvider: {
-				resolveProvider: true
-			}
+			documentFormattingProvider: true,
 		}
 	};
 	if (hasWorkspaceFolderCapability) {
@@ -141,34 +136,29 @@ documents.onDidChangeContent(change => {
 	validateTextDocument(change.document);
 });
 
-async function validateTextDocument(textDocument: TextDocument): Promise<void> {
-	// In this simple example we get the settings for every validate run.
+async function lintMD(textDocument: TextDocument) {
 	const settings = await getDocumentSettings(textDocument.uri);
-
-	// The validator creates diagnostics for all uppercase words length 2 and more
 	const text = textDocument.getText();
-	let m: RegExpExecArray | null;
-
 	const options = {
 		rules: {
 			preset: 'default'
 		}
 	};
 	const output = run(text, options);
+	return output;
+}
+
+async function validateTextDocument(textDocument: TextDocument): Promise<void> {
+	const output = await lintMD(textDocument);
 
 	const diagnostics = output.validations.map((validation) => {
 
 		const start = textDocument.positionAt(validation.index);
-		// 多加1，这样局部lint的时候才会有效果，如：English和，加1的话范围到和，这样局部也能做处理
-		const end = textDocument.positionAt(validation.index + validation.length + 1);
+		const end = textDocument.positionAt(validation.index + validation.length);
 		const range = {
 			start,
 			end
 		};
-
-		const origin = textDocument.getText(range);
-		// TODO: 这样其实是跑了两遍，如何优化？
-		const result = run(origin, options).result;
 
 		const diagnostic: Diagnostic = {
 			severity: DiagnosticSeverity.Warning,
@@ -179,65 +169,28 @@ async function validateTextDocument(textDocument: TextDocument): Promise<void> {
 				href: 'https://zhlint-project.github.io/zhlint/#supported-rules',
 			},
 			range,
-			data: {
-				origin,
-				result
-			},
 		};
-
-		// if (hasDiagnosticRelatedInformationCapability) {
-		// 	diagnostic.relatedInformation = [
-		// 		{
-		// 			location: {
-		// 				uri: textDocument.uri,
-		// 				range: Object.assign({}, diagnostic.range)
-		// 			},
-		// 			message: validation.message
-		// 		}
-		// 	];
-		// }
 
 		return diagnostic;
 	});
-	// Send the computed diagnostics to VSCode.
 	connection.sendDiagnostics({ uri: textDocument.uri, diagnostics });
 }
 
-function quickfix(_: TextDocument, params: CodeActionParams): CodeAction[] {
-	const diagnostics = params.context.diagnostics;
-	return diagnostics.map(diag => {
-		const action: CodeAction = {
-			title: 'zhlint: fix',
-			kind: CodeActionKind.QuickFix,
-			diagnostics: [diag],
-			edit: {
-				changes: {
-					[params.textDocument.uri]: [
-						{
-							range: diag.range,
-							newText: diag.data.result
-						}
-					]
-				}
-			},
-			isPreferred: true
-		};
-		return action;
-	});
-}
-
-connection.onCodeAction((params) => {
-	if (!params.context.diagnostics || params.context.diagnostics.length === 0) return [];
-	const document = documents.get(params.textDocument.uri);
-	if (!document) return [];
-	return quickfix(document, params);
+connection.onDocumentFormatting(async (params) => {
+	const textDocument = documents.get(params.textDocument.uri);
+	if (textDocument) {
+		const output = await lintMD(textDocument);
+		return [
+			{
+				range: {
+					start: textDocument.positionAt(0),
+					end: textDocument.positionAt(textDocument.getText().length)
+				},
+				newText: output.result
+			}
+		];
+	}
 });
-
-connection.onDidChangeWatchedFiles(_change => {
-	// Monitored files have change in VSCode
-	connection.console.log('We received an file change event');
-});
-
 
 // Make the text document manager listen on the connection
 // for open, change and close text document events
