@@ -1,0 +1,13 @@
+{
+	"editor.insertSpaces": false,
+	"typescript.tsc.autoDetect": "off",
+	"typescript.preferences.quoteStyle": "single",
+	"editor.codeActionsOnSave": {
+		"source.fixAll.eslint": true
+	},
+	"terminal.integrated.defaultProfile.windows": "Command Prompt",
+	"eslint.validate": [
+		"javascript",
+		"typescript",
+	],
+}
