@@ -9,6 +9,8 @@ A VS Code Extension for [zhlint](https://zhlint-project.github.io/zhlint/#suppor
 - lint
 - format
 
+use `zhlint` as your default formatter for markdown
+
 ```json
 {
   "[markdown]": {
