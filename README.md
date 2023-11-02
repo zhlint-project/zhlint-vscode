@@ -1,30 +1,39 @@
-# LSP Example
+# Awesome zhlint
 
-Heavily documented sample code for https://code.visualstudio.com/api/language-extensions/language-server-extension-guide
+<a href="https://marketplace.visualstudio.com/items?itemName=kkopite.zhlint" target="__blank"><img src="https://img.shields.io/visual-studio-marketplace/v/antfu.ext-name.svg?color=eee&amp;label=VS%20Code%20Marketplace&logo=visual-studio-code" alt="Visual Studio Marketplace Version" /></a>
 
-## Functionality
+A VS Code Extension for [zhlint](https://zhlint-project.github.io/zhlint/#supported-rules)
 
-This Language Server works for plain text file. It has the following language features:
-- Completions
-- Diagnostics regenerated on each file change or configuration change
+## Feature
 
-It also includes an End-to-End test.
+- lint
+- format
 
-## Structure
-
-```
-.
-├── client // Language Client
-│   ├── src
-│   │   ├── test // End to End tests for Language Client / Server
-│   │   └── extension.ts // Language Client entry point
-├── package.json // The extension manifest.
-└── server // Language Server
-    └── src
-        └── server.ts // Language Server entry point
+```json
+{
+  "[markdown]": {
+    "editor.defaultFormatter": "kkopite.zhlint",
+    "editor.formatOnSave": true
+  }
+}
 ```
 
-## Running the Sample
+you can use `Shift + Alt + F` or save to format your markdown with `zhlint`
+
+## zhlint options
+
+```json
+{
+	"zhlint.rules": {},
+	"zhlint.ignoredCases": {},
+	"zhlint.hyperParses": {}
+}
+```
+
+more detail, you can look the [zhlint document](https://zhlint-project.github.io/zhlint)
+
+
+## Dev
 
 - Run `npm install` in this folder. This installs all necessary npm modules in both the client and server folder
 - Open VS Code on this folder.
