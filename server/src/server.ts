@@ -21,7 +21,7 @@ import {
 import {
 	TextDocument
 } from 'vscode-languageserver-textdocument';
-import { run } from 'zhlint';
+import { run, Options } from 'zhlint';
 
 // Create a connection for the server, using Node's IPC as a transport.
 // Also include all preview / proposed LSP features.
@@ -83,26 +83,27 @@ connection.onInitialized(() => {
 });
 
 // The example settings
-interface ExampleSettings {
-	maxNumberOfProblems: number;
-}
 
 // The global settings, used when the `workspace/configuration` request is not supported by the client.
 // Please note that this is not the case when using this server with the client provided in this example
 // but could happen with other clients.
-const defaultSettings: ExampleSettings = { maxNumberOfProblems: 1000 };
-let globalSettings: ExampleSettings = defaultSettings;
+const defaultSettings: Options = {
+	rules: {
+		preset: 'default'
+	}
+};
+let globalSettings: Options = defaultSettings;
 
 // Cache the settings of all open documents
-const documentSettings: Map<string, Thenable<ExampleSettings>> = new Map();
+const documentSettings: Map<string, Thenable<Options>> = new Map();
 
 connection.onDidChangeConfiguration(change => {
 	if (hasConfigurationCapability) {
 		// Reset all cached document settings
 		documentSettings.clear();
 	} else {
-		globalSettings = <ExampleSettings>(
-			(change.settings.languageServerExample || defaultSettings)
+		globalSettings = <Options>(
+			(change.settings.zhlint || defaultSettings)
 		);
 	}
 
@@ -110,7 +111,7 @@ connection.onDidChangeConfiguration(change => {
 	documents.all().forEach(validateTextDocument);
 });
 
-function getDocumentSettings(resource: string): Thenable<ExampleSettings> {
+function getDocumentSettings(resource: string): Thenable<Options> {
 	if (!hasConfigurationCapability) {
 		return Promise.resolve(globalSettings);
 	}
@@ -137,13 +138,8 @@ documents.onDidChangeContent(change => {
 });
 
 async function lintMD(textDocument: TextDocument) {
-	const settings = await getDocumentSettings(textDocument.uri);
+	const options = await getDocumentSettings(textDocument.uri);
 	const text = textDocument.getText();
-	const options = {
-		rules: {
-			preset: 'default'
-		}
-	};
 	const output = run(text, options);
 	return output;
 }
