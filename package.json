@@ -38,144 +38,149 @@
 					"default": "off",
 					"description": "Traces the communication between VS Code and the language server."
 				},
-				"zhlint.rules": {
+				"zhlint.options": {
 					"type": "object",
 					"properties": {
-						"preset": {
+						"rules": {
+							"type": "object",
+							"properties": {
+								"preset": {
+									"type": "string",
+									"enum": [
+										"default"
+									],
+									"description": "Custom preset"
+								},
+								"halfWidthPunctuation": {
+									"type": "string",
+									"description": "Convert these punctuations into half-width."
+								},
+								"fullWidthPunctuation": {
+									"type": "string",
+									"description": "Convert these punctuations into full-width."
+								},
+								"adjustedFullWidthPunctuation": {
+									"type": "string",
+									"description": "Treat specific full-width punctuations as half-width for space processing"
+								},
+								"unifiedPunctuation": {
+									"type": "string",
+									"enum": [
+										"simplified",
+										"traditional"
+									],
+									"description": "Convert traditional Chinese punctuations into simplified ones or vice versa"
+								},
+								"skipAbbrs": {
+									"type": "array",
+									"description": "Special case: skip `fullWidthPunctuation` for abbreviations"
+								},
+								"spaceBetweenHalfWidthLetters": {
+									"type": "boolean",
+									"description": "Toggle space between half-width letters"
+								},
+								"noSpaceBetweenFullWidthLetters": {
+									"type": "boolean",
+									"description": "Toggle space between full-width letters"
+								},
+								"spaceBetweenMixedWidthLetters": {
+									"type": "boolean",
+									"description": "Toggle space between mixed-width letters"
+								},
+								"skipZhUnits": {
+									"type": "string",
+									"description": "Special case: skip `spaceBetweenMixedWidthContent` for numbers x Chinese units"
+								},
+								"noSpaceBeforePunctuation": {
+									"type": "boolean",
+									"description": "Toggle space before punctuations"
+								},
+								"spaceAfterHalfWidthPunctuation": {
+									"type": "boolean"
+								},
+								"noSpaceAfterFullWidthPunctuation": {
+									"type": "boolean"
+								},
+								"spaceOutsideHalfQuote": {
+									"type": "boolean"
+								},
+								"noSpaceOutsideFullQuote": {
+									"type": "boolean"
+								},
+								"noSpaceInsideQuote": {
+									"type": "boolean"
+								},
+								"spaceOutsideHalfBracket": {
+									"type": "boolean"
+								},
+								"noSpaceOutsideFullBracket": {
+									"type": "boolean"
+								},
+								"noSpaceInsideBracket": {
+									"type": "boolean"
+								},
+								"spaceOutsideCode": {
+									"type": "boolean"
+								},
+								"noSpaceInsideWrapper": {
+									"type": "boolean"
+								},
+								"trimSpace": {
+									"type": "boolean"
+								}
+							}
+						}
+					},
+					"ignoredCases": {
+						"type": "array",
+						"description": "provide exception cases which you would like to skip.",
+						"items": {
+							"type": "object",
+							"properties": {
+								"prefix": "string",
+								"suffix": "string",
+								"textStart": "string",
+								"textEnd": "string"
+							}
+						}
+					},
+					"hyperParse": {
+						"type": "array",
+						"description": "customize the hyper parser by their names. It could be `undefined` which means just use default ignored cases parser, Markdown parser and the Hexo tags parser.",
+						"items": {
 							"type": "string",
 							"enum": [
-								"default"
-							],
-							"description": "Custom preset"
-						},
-						"halfWidthPunctuation": {
-							"type": "string",
-							"description": "Convert these punctuations into half-width."
-						},
-						"fullWidthPunctuation": {
-							"type": "string",
-							"description": "Convert these punctuations into full-width."
-						},
-						"adjustedFullWidthPunctuation": {
-							"type": "string",
-							"description": "Treat specific full-width punctuations as half-width for space processing"
-						},
-						"unifiedPunctuation": {
-							"type": "string",
-							"enum": [
-								"simplified",
-								"traditional"
-							],
-							"description": "Convert traditional Chinese punctuations into simplified ones or vice versa"
-						},
-						"skipAbbrs": {
-							"type": "array",
-							"description": "Special case: skip `fullWidthPunctuation` for abbreviations"
-						},
-						"spaceBetweenHalfWidthLetters": {
-							"type": "boolean",
-							"description": "Toggle space between half-width letters"
-						},
-						"noSpaceBetweenFullWidthLetters": {
-							"type": "boolean",
-							"description": "Toggle space between full-width letters"
-						},
-						"spaceBetweenMixedWidthLetters": {
-							"type": "boolean",
-							"description": "Toggle space between mixed-width letters"
-						},
-						"skipZhUnits": {
-							"type": "string",
-							"description": "Special case: skip `spaceBetweenMixedWidthContent` for numbers x Chinese units"
-						},
-						"noSpaceBeforePunctuation": {
-							"type": "boolean",
-							"description": "Toggle space before punctuations"
-						},
-						"spaceAfterHalfWidthPunctuation": {
-							"type": "boolean"
-						},
-						"noSpaceAfterFullWidthPunctuation": {
-							"type": "boolean"
-						},
-						"spaceOutsideHalfQuote": {
-							"type": "boolean"
-						},
-						"noSpaceOutsideFullQuote": {
-							"type": "boolean"
-						},
-						"noSpaceInsideQuote": {
-							"type": "boolean"
-						},
-						"spaceOutsideHalfBracket": {
-							"type": "boolean"
-						},
-						"noSpaceOutsideFullBracket": {
-							"type": "boolean"
-						},
-						"noSpaceInsideBracket": {
-							"type": "boolean"
-						},
-						"spaceOutsideCode": {
-							"type": "boolean"
-						},
-						"noSpaceInsideWrapper": {
-							"type": "boolean"
-						},
-						"trimSpace": {
-							"type": "boolean"
+								"ignore",
+								"hexo",
+								"vuepress",
+								"markdown"
+							]
 						}
-					}
-				},
-				"zhlint.ignoredCases": {
-					"type": "array",
-					"description": "provide exception cases which you would like to skip.",
-					"items": {
-						"type": "object",
-						"properties": {
-							"prefix": "string",
-							"suffix": "string",
-							"textStart": "string",
-							"textEnd": "string"
-						}
-					}
-				},
-				"zhlint.hyperParses": {
-					"type": "array",
-					"description": "customize the hyper parser by their names. It could be `undefined` which means just use default ignored cases parser, Markdown parser and the Hexo tags parser.",
-					"items": {
-						"type": "string",
-						"enum": [
-							"ignore",
-							"hexo",
-							"vuepress",
-							"markdown"
-						]
 					}
 				}
 			}
+		},
+		"scripts": {
+			"vscode:prepublish": "npm run compile",
+			"compile": "tsc -b",
+			"watch": "tsc -b -w",
+			"lint": "eslint ./client/src ./server/src --ext .ts,.tsx",
+			"postinstall": "cd client && npm install && cd ../server && npm install && cd ..",
+			"test": "sh ./scripts/e2e.sh",
+			"release": "bumpp && npm run publish",
+			"publish": "vsce publish --no-dependencies",
+			"pack": "vsce package --no-dependencies"
+		},
+		"devDependencies": {
+			"@types/mocha": "^9.1.0",
+			"@types/node": "^16.18.34",
+			"@typescript-eslint/eslint-plugin": "^6.7.0",
+			"@typescript-eslint/parser": "^6.7.0",
+			"@vscode/vsce": "^2.22.0",
+			"bumpp": "^9.2.0",
+			"eslint": "^8.35.0",
+			"mocha": "^9.2.1",
+			"typescript": "^5.2.2"
 		}
-	},
-	"scripts": {
-		"vscode:prepublish": "npm run compile",
-		"compile": "tsc -b",
-		"watch": "tsc -b -w",
-		"lint": "eslint ./client/src ./server/src --ext .ts,.tsx",
-		"postinstall": "cd client && npm install && cd ../server && npm install && cd ..",
-		"test": "sh ./scripts/e2e.sh",
-		"release": "bumpp && npm run publish",
-		"publish": "vsce publish --no-dependencies",
-		"pack": "vsce package --no-dependencies"
-	},
-	"devDependencies": {
-		"@types/mocha": "^9.1.0",
-		"@types/node": "^16.18.34",
-		"@typescript-eslint/eslint-plugin": "^6.7.0",
-		"@typescript-eslint/parser": "^6.7.0",
-		"@vscode/vsce": "^2.22.0",
-		"bumpp": "^9.2.0",
-		"eslint": "^8.35.0",
-		"mocha": "^9.2.1",
-		"typescript": "^5.2.2"
 	}
 }

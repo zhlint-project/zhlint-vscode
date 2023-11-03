@@ -87,22 +87,28 @@ connection.onInitialized(() => {
 // The global settings, used when the `workspace/configuration` request is not supported by the client.
 // Please note that this is not the case when using this server with the client provided in this example
 // but could happen with other clients.
-const defaultSettings: Options = {
-	rules: {
-		preset: 'default'
+const defaultSettings: ZhlintSettings = {
+	options: {
+		rules: {
+			preset: 'default'
+		}
 	}
 };
-let globalSettings: Options = defaultSettings;
+
+interface ZhlintSettings {
+	options: Options;
+}
+let globalSettings: ZhlintSettings = defaultSettings;
 
 // Cache the settings of all open documents
-const documentSettings: Map<string, Thenable<Options>> = new Map();
+const documentSettings: Map<string, Thenable<ZhlintSettings>> = new Map();
 
 connection.onDidChangeConfiguration(change => {
 	if (hasConfigurationCapability) {
 		// Reset all cached document settings
 		documentSettings.clear();
 	} else {
-		globalSettings = <Options>(
+		globalSettings = <ZhlintSettings>(
 			(change.settings.zhlint || defaultSettings)
 		);
 	}
@@ -111,7 +117,7 @@ connection.onDidChangeConfiguration(change => {
 	documents.all().forEach(validateTextDocument);
 });
 
-function getDocumentSettings(resource: string): Thenable<Options> {
+function getDocumentSettings(resource: string): Thenable<ZhlintSettings> {
 	if (!hasConfigurationCapability) {
 		return Promise.resolve(globalSettings);
 	}
@@ -138,9 +144,9 @@ documents.onDidChangeContent(change => {
 });
 
 async function lintMD(textDocument: TextDocument) {
-	const options = await getDocumentSettings(textDocument.uri);
+	const settings = await getDocumentSettings(textDocument.uri);
 	const text = textDocument.getText();
-	const output = run(text, options);
+	const output = run(text, settings.options || {});
 	return output;
 }
 
