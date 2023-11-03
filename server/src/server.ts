@@ -21,7 +21,7 @@ import {
 import {
 	TextDocument
 } from 'vscode-languageserver-textdocument';
-import { run, Options } from 'zhlint';
+import { run, Options, Result } from 'zhlint';
 
 // Create a connection for the server, using Node's IPC as a transport.
 // Also include all preview / proposed LSP features.
@@ -58,6 +58,7 @@ connection.onInitialize((params: InitializeParams) => {
 			// codeActionProvider: true,
 			textDocumentSync: TextDocumentSyncKind.Incremental,
 			documentFormattingProvider: true,
+			documentRangeFormattingProvider: true
 		}
 	};
 	if (hasWorkspaceFolderCapability) {
@@ -143,9 +144,9 @@ documents.onDidChangeContent(change => {
 	validateTextDocument(change.document);
 });
 
-async function lintMD(textDocument: TextDocument) {
+async function lintMD(textDocument: TextDocument, range?: Range) {
 	const settings = await getDocumentSettings(textDocument.uri);
-	const text = textDocument.getText();
+	const text = textDocument.getText(range);
 	const output = run(text, settings.options || {});
 	return output;
 }
@@ -182,12 +183,26 @@ connection.onDocumentFormatting(async (params) => {
 	const textDocument = documents.get(params.textDocument.uri);
 	if (textDocument) {
 		const output = await lintMD(textDocument);
+		const range = Range.create(0, 0, textDocument.lineCount, 0);
 		return [
 			{
-				range: {
-					start: textDocument.positionAt(0),
-					end: textDocument.positionAt(textDocument.getText().length)
-				},
+				range,
+				newText: output.result
+			}
+		];
+	}
+});
+
+connection.onDocumentRangeFormatting(async (params) => {
+	const textDocument = documents.get(params.textDocument.uri);
+	if (textDocument) {
+		const {
+			range,
+		} = params;
+		const output = await lintMD(textDocument, range);
+		return [
+			{
+				range,
 				newText: output.result
 			}
 		];
