@@ -136,10 +136,18 @@
 							"items": {
 								"type": "object",
 								"properties": {
-									"prefix": "string",
-									"suffix": "string",
-									"textStart": "string",
-									"textEnd": "string"
+									"prefix": {
+										"type": "string"
+									},
+									"suffix": {
+										"type": "string"
+									},
+									"textStart": {
+										"type": "string"
+									},
+									"textEnd": {
+										"type": "string"
+									}
 								}
 							}
 						},
