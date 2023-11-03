@@ -26,7 +26,8 @@ you can use `Shift + Alt + F` or save to format your markdown with `zhlint`
 
 ```json
 {
-	"zhlint.rules": {},
+	"zhlint.options": {
+	},
 	"zhlint.ignoredCases": {},
 	"zhlint.hyperParses": {}
 }

@@ -23,12 +23,3 @@ jobs:
       - run: npx changelogithub
         env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
-
-      - run: npm i -g vsce
-      - run: npm install
-        env:
-          CONVENTIONAL_GITHUB_RELEASER_TOKEN: ${{secrets.GITHUB_TOKEN}}
-      - run: npm run compile
-      - run: vsce publish -p ${{secrets.VSCE_TOKEN}} --no-dependencies
-        env:
-          VSCE_TOKEN: ${{secrets.VSCE_TOKEN}}

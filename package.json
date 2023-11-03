@@ -129,32 +129,32 @@
 									"type": "boolean"
 								}
 							}
-						}
-					},
-					"ignoredCases": {
-						"type": "array",
-						"description": "provide exception cases which you would like to skip.",
-						"items": {
-							"type": "object",
-							"properties": {
-								"prefix": "string",
-								"suffix": "string",
-								"textStart": "string",
-								"textEnd": "string"
+						},
+						"ignoredCases": {
+							"type": "array",
+							"description": "provide exception cases which you would like to skip.",
+							"items": {
+								"type": "object",
+								"properties": {
+									"prefix": "string",
+									"suffix": "string",
+									"textStart": "string",
+									"textEnd": "string"
+								}
 							}
-						}
-					},
-					"hyperParse": {
-						"type": "array",
-						"description": "customize the hyper parser by their names. It could be `undefined` which means just use default ignored cases parser, Markdown parser and the Hexo tags parser.",
-						"items": {
-							"type": "string",
-							"enum": [
-								"ignore",
-								"hexo",
-								"vuepress",
-								"markdown"
-							]
+						},
+						"hyperParse": {
+							"type": "array",
+							"description": "customize the hyper parser by their names. It could be `undefined` which means just use default ignored cases parser, Markdown parser and the Hexo tags parser.",
+							"items": {
+								"type": "string",
+								"enum": [
+									"ignore",
+									"hexo",
+									"vuepress",
+									"markdown"
+								]
+							}
 						}
 					}
 				}
@@ -168,7 +168,7 @@
 		"lint": "eslint ./client/src ./server/src --ext .ts,.tsx",
 		"postinstall": "cd client && npm install && cd ../server && npm install && cd ..",
 		"test": "sh ./scripts/e2e.sh",
-		"release": "bumpp",
+		"release": "bumpp && npm run publish",
 		"publish": "vsce publish --no-dependencies",
 		"pack": "vsce package --no-dependencies"
 	},
