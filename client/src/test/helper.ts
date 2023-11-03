@@ -16,7 +16,7 @@ export let platformEol: string;
  */
 export async function activate(docUri: vscode.Uri) {
 	// The extensionId is `publisher.name` from package.json
-	const ext = vscode.extensions.getExtension('vscode-samples.lsp-sample')!;
+	const ext = vscode.extensions.getExtension('kkopite.zhlint')!;
 	await ext.activate();
 	try {
 		doc = await vscode.workspace.openTextDocument(docUri);
@@ -25,6 +25,10 @@ export async function activate(docUri: vscode.Uri) {
 	} catch (e) {
 		console.error(e);
 	}
+	return {
+		doc,
+		editor
+	};
 }
 
 async function sleep(ms: number) {

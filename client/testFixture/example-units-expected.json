@@ -1,0 +1,682 @@
+[
+  {
+    "target": "spaceAfter",
+    "message": "此处内联代码的外部需要一个空格",
+    "range": [
+      0,
+      17,
+      0,
+      20
+    ]
+  },
+  {
+    "target": "spaceAfter",
+    "message": "此处内联代码的外部需要一个空格",
+    "range": [
+      0,
+      20,
+      0,
+      21
+    ]
+  },
+  {
+    "target": "spaceAfter",
+    "message": "此处内联代码的外部需要一个空格",
+    "range": [
+      0,
+      25,
+      0,
+      26
+    ]
+  },
+  {
+    "target": "spaceAfter",
+    "message": "此处内联代码的外部需要一个空格",
+    "range": [
+      0,
+      26,
+      0,
+      29
+    ]
+  },
+  {
+    "target": "spaceAfter",
+    "message": "此处半角内容之间需要一个空格",
+    "range": [
+      2,
+      21,
+      2,
+      22
+    ]
+  },
+  {
+    "target": "spaceAfter",
+    "message": "此处 Markdown 标记的内部不需要空格",
+    "range": [
+      2,
+      24,
+      2,
+      25
+    ]
+  },
+  {
+    "target": "spaceAfter",
+    "message": "此处 Markdown 标记的内部不需要空格",
+    "range": [
+      2,
+      26,
+      2,
+      27
+    ]
+  },
+  {
+    "target": "spaceAfter",
+    "message": "此处半角内容之间需要一个空格",
+    "range": [
+      2,
+      32,
+      2,
+      34
+    ]
+  },
+  {
+    "target": "content",
+    "message": "此处标点符号需要使用全角",
+    "range": [
+      4,
+      20,
+      4,
+      21
+    ]
+  },
+  {
+    "target": "content",
+    "message": "此处标点符号需要使用半角",
+    "range": [
+      4,
+      24,
+      4,
+      25
+    ]
+  },
+  {
+    "target": "content",
+    "message": "此处标点符号需要使用半角",
+    "range": [
+      4,
+      27,
+      4,
+      28
+    ]
+  },
+  {
+    "target": "spaceAfter",
+    "message": "此处引号的外部需要一个空格",
+    "range": [
+      4,
+      29,
+      4,
+      31
+    ]
+  },
+  {
+    "target": "startContent",
+    "message": "此处标点符号需要使用全角",
+    "range": [
+      4,
+      31,
+      4,
+      31
+    ]
+  },
+  {
+    "target": "endContent",
+    "message": "此处标点符号需要使用全角",
+    "range": [
+      4,
+      34,
+      4,
+      34
+    ]
+  },
+  {
+    "target": "spaceAfter",
+    "message": "此处引号的外部需要一个空格",
+    "range": [
+      4,
+      31,
+      4,
+      32
+    ]
+  },
+  {
+    "target": "spaceAfter",
+    "message": "此处引号的外部需要一个空格",
+    "range": [
+      4,
+      35,
+      4,
+      37
+    ]
+  },
+  {
+    "target": "startContent",
+    "message": "此处标点符号需要使用全角",
+    "range": [
+      4,
+      37,
+      4,
+      37
+    ]
+  },
+  {
+    "target": "endContent",
+    "message": "此处标点符号需要使用全角",
+    "range": [
+      4,
+      40,
+      4,
+      40
+    ]
+  },
+  {
+    "target": "spaceAfter",
+    "message": "此处引号的外部需要一个空格",
+    "range": [
+      4,
+      37,
+      4,
+      38
+    ]
+  },
+  {
+    "target": "content",
+    "message": "此处标点符号需要使用半角",
+    "range": [
+      4,
+      44,
+      4,
+      45
+    ]
+  },
+  {
+    "target": "content",
+    "message": "此处标点符号需要使用半角",
+    "range": [
+      4,
+      47,
+      4,
+      48
+    ]
+  },
+  {
+    "target": "content",
+    "message": "此处标点符号需要使用半角",
+    "range": [
+      4,
+      48,
+      4,
+      49
+    ]
+  },
+  {
+    "target": "content",
+    "message": "此处标点符号需要使用半角",
+    "range": [
+      4,
+      51,
+      4,
+      52
+    ]
+  },
+  {
+    "target": "spaceAfter",
+    "message": "此处括号的外部需要一个空格",
+    "range": [
+      4,
+      51,
+      4,
+      52
+    ]
+  },
+  {
+    "target": "content",
+    "message": "此处标点符号需要使用半角",
+    "range": [
+      4,
+      55,
+      4,
+      56
+    ]
+  },
+  {
+    "target": "content",
+    "message": "此处标点符号需要使用半角",
+    "range": [
+      4,
+      58,
+      4,
+      59
+    ]
+  },
+  {
+    "target": "spaceAfter",
+    "message": "此处标点符号前不需要空格",
+    "range": [
+      10,
+      18,
+      10,
+      20
+    ]
+  },
+  {
+    "target": "spaceAfter",
+    "message": "此处标点符号后不需要空格",
+    "range": [
+      10,
+      21,
+      10,
+      22
+    ]
+  },
+  {
+    "target": "spaceAfter",
+    "message": "此处括号的外部需要一个空格",
+    "range": [
+      10,
+      23,
+      10,
+      25
+    ]
+  },
+  {
+    "target": "spaceAfter",
+    "message": "此处括号的外部需要一个空格",
+    "range": [
+      10,
+      28,
+      10,
+      29
+    ]
+  },
+  {
+    "target": "spaceAfter",
+    "message": "此处标点符号前不需要空格",
+    "range": [
+      10,
+      32,
+      10,
+      34
+    ]
+  },
+  {
+    "target": "content",
+    "message": "此处标点符号需要使用全角",
+    "range": [
+      10,
+      35,
+      10,
+      36
+    ]
+  },
+  {
+    "target": "spaceAfter",
+    "message": "此处标点符号后不需要空格",
+    "range": [
+      10,
+      35,
+      10,
+      36
+    ]
+  },
+  {
+    "target": "spaceAfter",
+    "message": "此处括号的外部需要一个空格",
+    "range": [
+      10,
+      37,
+      10,
+      39
+    ]
+  },
+  {
+    "target": "content",
+    "message": "此处标点符号需要使用半角",
+    "range": [
+      10,
+      39,
+      10,
+      40
+    ]
+  },
+  {
+    "target": "content",
+    "message": "此处标点符号需要使用半角",
+    "range": [
+      10,
+      42,
+      10,
+      43
+    ]
+  },
+  {
+    "target": "spaceAfter",
+    "message": "此处括号的外部需要一个空格",
+    "range": [
+      10,
+      42,
+      10,
+      43
+    ]
+  },
+  {
+    "target": "content",
+    "message": "此处标点符号需要使用全角",
+    "range": [
+      10,
+      45,
+      10,
+      46
+    ]
+  },
+  {
+    "target": "spaceAfter",
+    "message": "此处括号的内部不需要空格",
+    "range": [
+      16,
+      25,
+      16,
+      26
+    ]
+  },
+  {
+    "target": "spaceAfter",
+    "message": "此处括号的外部需要一个空格",
+    "range": [
+      16,
+      27,
+      16,
+      28
+    ]
+  },
+  {
+    "target": "spaceAfter",
+    "message": "此处括号的外部需要一个空格",
+    "range": [
+      16,
+      28,
+      16,
+      29
+    ]
+  },
+  {
+    "target": "spaceAfter",
+    "message": "此处括号的内部不需要空格",
+    "range": [
+      16,
+      29,
+      16,
+      30
+    ]
+  },
+  {
+    "target": "spaceAfter",
+    "message": "此处括号的内部不需要空格",
+    "range": [
+      16,
+      36,
+      16,
+      37
+    ]
+  },
+  {
+    "target": "spaceAfter",
+    "message": "此处括号的内部不需要空格",
+    "range": [
+      16,
+      38,
+      16,
+      39
+    ]
+  },
+  {
+    "target": "spaceAfter",
+    "message": "此处括号的外部需要一个空格",
+    "range": [
+      16,
+      42,
+      16,
+      43
+    ]
+  },
+  {
+    "target": "content",
+    "message": "此处标点符号需要使用半角",
+    "range": [
+      16,
+      43,
+      16,
+      44
+    ]
+  },
+  {
+    "target": "content",
+    "message": "此处标点符号需要使用半角",
+    "range": [
+      16,
+      45,
+      16,
+      46
+    ]
+  },
+  {
+    "target": "spaceAfter",
+    "message": "此处括号的外部需要一个空格",
+    "range": [
+      16,
+      45,
+      16,
+      46
+    ]
+  },
+  {
+    "target": "content",
+    "message": "此处标点符号需要使用半角",
+    "range": [
+      16,
+      48,
+      16,
+      49
+    ]
+  },
+  {
+    "target": "content",
+    "message": "此处标点符号需要使用半角",
+    "range": [
+      16,
+      50,
+      16,
+      51
+    ]
+  },
+  {
+    "target": "spaceAfter",
+    "message": "此处括号的内部不需要空格",
+    "range": [
+      16,
+      56,
+      16,
+      57
+    ]
+  },
+  {
+    "target": "spaceAfter",
+    "message": "此处括号的内部不需要空格",
+    "range": [
+      16,
+      58,
+      16,
+      59
+    ]
+  },
+  {
+    "target": "spaceAfter",
+    "message": "此处括号的外部需要一个空格",
+    "range": [
+      16,
+      64,
+      16,
+      65
+    ]
+  },
+  {
+    "target": "spaceAfter",
+    "message": "此处括号的内部不需要空格",
+    "range": [
+      16,
+      65,
+      16,
+      66
+    ]
+  },
+  {
+    "target": "spaceAfter",
+    "message": "此处括号的内部不需要空格",
+    "range": [
+      16,
+      70,
+      16,
+      72
+    ]
+  },
+  {
+    "target": "spaceAfter",
+    "message": "此处括号的外部需要一个空格",
+    "range": [
+      16,
+      73,
+      16,
+      74
+    ]
+  },
+  {
+    "target": "startContent",
+    "message": "此处标点符号需要使用全角",
+    "range": [
+      18,
+      15,
+      18,
+      15
+    ]
+  },
+  {
+    "target": "endContent",
+    "message": "此处标点符号需要使用全角",
+    "range": [
+      18,
+      29,
+      18,
+      29
+    ]
+  },
+  {
+    "target": "innerSpaceBefore",
+    "message": "此处引号的内部不需要空格",
+    "range": [
+      18,
+      15,
+      18,
+      16
+    ]
+  },
+  {
+    "target": "spaceAfter",
+    "message": "此处引号的内部不需要空格",
+    "range": [
+      18,
+      23,
+      18,
+      28
+    ]
+  },
+  {
+    "target": "spaceAfter",
+    "message": "此处引号的外部需要一个空格",
+    "range": [
+      20,
+      17,
+      20,
+      18
+    ]
+  },
+  {
+    "target": "startContent",
+    "message": "此处标点符号需要统一到简体",
+    "range": [
+      20,
+      18,
+      20,
+      18
+    ]
+  },
+  {
+    "target": "endContent",
+    "message": "此处标点符号需要统一到简体",
+    "range": [
+      20,
+      24,
+      20,
+      24
+    ]
+  },
+  {
+    "target": "spaceAfter",
+    "message": "此处引号的外部需要一个空格",
+    "range": [
+      20,
+      18,
+      20,
+      21
+    ]
+  },
+  {
+    "target": "spaceAfter",
+    "message": "此处引号的外部需要一个空格",
+    "range": [
+      20,
+      19,
+      20,
+      20
+    ]
+  },
+  {
+    "target": "startContent",
+    "message": "此处标点符号需要统一到简体",
+    "range": [
+      20,
+      20,
+      20,
+      20
+    ]
+  },
+  {
+    "target": "endContent",
+    "message": "此处标点符号需要统一到简体",
+    "range": [
+      20,
+      22,
+      20,
+      22
+    ]
+  },
+  {
+    "target": "spaceAfter",
+    "message": "此处引号的外部需要一个空格",
+    "range": [
+      20,
+      20,
+      20,
+      21
+    ]
+  }
+]

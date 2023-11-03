@@ -10,4 +10,8 @@
 		"javascript",
 		"typescript",
 	],
+	"[markdown]": {
+		"editor.formatOnSave": false,
+		"editor.defaultFormatter": "vscode.markdown-language-features"
+	}
 }

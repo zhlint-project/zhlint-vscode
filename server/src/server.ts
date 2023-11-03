@@ -12,16 +12,14 @@ import {
 	DidChangeConfigurationNotification,
 	TextDocumentSyncKind,
 	InitializeResult,
-	TextDocumentEdit,
-	TextEdit,
-	Position,
 	Range,
 } from 'vscode-languageserver/node';
 
 import {
 	TextDocument
 } from 'vscode-languageserver-textdocument';
-import { run, Options, Result } from 'zhlint';
+
+import { run, Options } from 'zhlint';
 
 // Create a connection for the server, using Node's IPC as a transport.
 // Also include all preview / proposed LSP features.
@@ -82,8 +80,6 @@ connection.onInitialized(() => {
 		});
 	}
 });
-
-// The example settings
 
 // The global settings, used when the `workspace/configuration` request is not supported by the client.
 // Please note that this is not the case when using this server with the client provided in this example

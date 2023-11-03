@@ -1,0 +1,10 @@
+{
+	"zhlint.options": {
+		"rules": {
+			"preset": "default"
+		}
+	},
+	"[markdown]": {
+		"editor.defaultFormatter": "kkopite.zhlint"
+	}
+}

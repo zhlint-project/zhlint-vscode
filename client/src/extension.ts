@@ -28,6 +28,9 @@ export function activate(context: ExtensionContext) {
 		debug: {
 			module: serverModule,
 			transport: TransportKind.ipc,
+			options: {
+				execArgv: ['--nolazy', '--inspect=6009']
+			}
 		}
 	};
 
@@ -35,10 +38,10 @@ export function activate(context: ExtensionContext) {
 	const clientOptions: LanguageClientOptions = {
 		// Register the server for plain text documents
 		documentSelector: [{ scheme: 'file', language: 'markdown' }],
-		synchronize: {
-			// Notify the server about file changes to '.clientrc files contained in the workspace
-			fileEvents: workspace.createFileSystemWatcher('**/.clientrc')
-		}
+		// synchronize: {
+		// 	// Notify the server about file changes to '.clientrc files contained in the workspace
+		// 	fileEvents: workspace.createFileSystemWatcher('**/.clientrc')
+		// }
 	};
 
 	// Create the language client and start the client.

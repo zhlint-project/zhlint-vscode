@@ -6,18 +6,44 @@
 import * as vscode from 'vscode';
 import * as assert from 'assert';
 import { getDocUri, activate } from './helper';
+import { readFile } from 'fs/promises';
 
 suite('Should get diagnostics', () => {
-	const docUri = getDocUri('diagnostics.txt');
 
-	test('Diagnoses uppercase texts', async () => {
-		await testDiagnostics(docUri, [
-			{ message: 'ANY is all uppercase.', range: toRange(0, 0, 0, 3), severity: vscode.DiagnosticSeverity.Warning, source: 'ex' },
-			{ message: 'ANY is all uppercase.', range: toRange(0, 14, 0, 17), severity: vscode.DiagnosticSeverity.Warning, source: 'ex' },
-			{ message: 'OS is all uppercase.', range: toRange(0, 18, 0, 20), severity: vscode.DiagnosticSeverity.Warning, source: 'ex' }
-		]);
+	const names = [
+		'example-units',
+		'example-vuepress'
+	];
+
+	test('Diagnoses works', async () => {
+
+		for (const name of names) {
+			const docUri = getDocUri(`${name}.md`);
+			const expectDocUri = getDocUri(`${name}-expected.json`);
+			await testDiagnostics(docUri, expectDocUri);
+		}
+	});
+
+	test('should get empty diagnostics with disabled', async () => {
+		const docUri = getDocUri('example-disabled.md');
+		await activate(docUri);
+		const diagnostics = vscode.languages.getDiagnostics(docUri);
+		assert.equal(diagnostics.length, 0);
 	});
 });
+
+function toDiagnostic(message: string, target: string, range: [number, number, number, number]) {
+	return {
+		message,
+		range: toRange(...range),
+		severity: vscode.DiagnosticSeverity.Warning,
+		source: 'zhlint',
+		code: target,
+		codeDescription: {
+			href: 'https://zhlint-project.github.io/zhlint/#supported-rules',
+		},
+	};
+}
 
 function toRange(sLine: number, sChar: number, eLine: number, eChar: number) {
 	const start = new vscode.Position(sLine, sChar);
@@ -25,8 +51,10 @@ function toRange(sLine: number, sChar: number, eLine: number, eChar: number) {
 	return new vscode.Range(start, end);
 }
 
-async function testDiagnostics(docUri: vscode.Uri, expectedDiagnostics: vscode.Diagnostic[]) {
+async function testDiagnostics(docUri: vscode.Uri, exceptUri: vscode.Uri) {
 	await activate(docUri);
+
+	const expectedDiagnostics = JSON.parse(await readFile(exceptUri.fsPath, 'utf8')).map((d: any) => toDiagnostic(d.message, d.target, d.range));
 
 	const actualDiagnostics = vscode.languages.getDiagnostics(docUri);
 
