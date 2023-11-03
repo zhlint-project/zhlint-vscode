@@ -168,7 +168,7 @@
 		"lint": "eslint ./client/src ./server/src --ext .ts,.tsx",
 		"postinstall": "cd client && npm install && cd ../server && npm install && cd ..",
 		"test": "sh ./scripts/e2e.sh",
-		"release": "bumpp && npm run publish",
+		"release": "bumpp",
 		"publish": "vsce publish --no-dependencies",
 		"pack": "vsce package --no-dependencies"
 	},
