@@ -1,8 +1,9 @@
-# Awesome zhlint
+# VS Code zhlint Extension
 
-<a href="https://marketplace.visualstudio.com/items?itemName=kkopite.zhlint" target="__blank"><img src="https://img.shields.io/visual-studio-marketplace/v/kkopite.zhlint.svg?color=eee&amp;label=VS%20Code%20Marketplace&logo=visual-studio-code" alt="Visual Studio Marketplace Version" /></a>
+<a href="https://marketplace.visualstudio.com/items?itemName=kkopite.zhlint" target="__blank"><img src="https://img.shields.io/visual-studio-marketplace/v/kkopite.zhlint.svg?color=ed5d47&amp;label=VS%20Code%20Marketplace&logo=visual-studio-code" alt="Visual Studio Marketplace Version" /></a>
 
-A VS Code Extension for [zhlint](https://zhlint-project.github.io/zhlint/#supported-rules)
+
+VS Code Extension for [zhlint](https://zhlint-project.github.io/zhlint/#supported-rules)
 
 ## Feature
 
@@ -21,6 +22,11 @@ use `zhlint` as your default formatter for markdown
 ```
 
 you can use `Shift + Alt + F` or save to format your markdown with `zhlint`
+
+> you can use it in other language like `.txt`
+> ```json
+> 
+> ```
 
 ## zhlint options
 
