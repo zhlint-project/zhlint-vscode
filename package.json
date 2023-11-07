@@ -38,6 +38,10 @@
 					"default": "off",
 					"description": "Traces the communication between VS Code and the language server."
 				},
+				"zhlint.debug": {
+					"type": "boolean",
+					"default": false
+				},
 				"zhlint.options": {
 					"type": "object",
 					"properties": {

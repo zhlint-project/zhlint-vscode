@@ -13,13 +13,14 @@ import {
 	TextDocumentSyncKind,
 	InitializeResult,
 	Range,
+	TextDocumentIdentifier,
 } from 'vscode-languageserver/node';
 
 import {
 	TextDocument
 } from 'vscode-languageserver-textdocument';
 
-import { run, Options } from 'zhlint';
+import { run, Options, Result } from 'zhlint';
 
 // Create a connection for the server, using Node's IPC as a transport.
 // Also include all preview / proposed LSP features.
@@ -89,11 +90,13 @@ const defaultSettings: ZhlintSettings = {
 		rules: {
 			preset: 'default'
 		}
-	}
+	},
+	debug: false
 };
 
 interface ZhlintSettings {
 	options: Options;
+	debug: boolean;
 }
 let globalSettings: ZhlintSettings = defaultSettings;
 
@@ -143,66 +146,82 @@ documents.onDidChangeContent(change => {
 async function lintMD(textDocument: TextDocument, range?: Range) {
 	const settings = await getDocumentSettings(textDocument.uri);
 	const text = textDocument.getText(range);
-	const output = run(text, settings.options || {});
-	return output;
+	try {
+		const options: Options = {
+			...settings.options,
+			logger: console	
+		};
+		// FIXME: how to add expand globalThis with __DEV__ so that we do not need to set `"noImplicitAny": false` in tsconfig.json
+		// zhlint use globalThis.__DEV__ to control debug mode
+		globalThis.__DEV__ = settings.debug;
+		const output = run(text, settings.options || {});
+		return output;
+	} catch (error) {
+		if (!settings.debug) return;
+		console.log(`resolve ${textDocument.uri} failed`);
+		console.log('-----------------------------');
+		console.log('original text:');
+		console.log('');
+		console.log(textDocument.getText(range));
+		console.log('');
+		console.log('-----------------------------');
+		console.error(error);			
+	}
 }
 
 async function validateTextDocument(textDocument: TextDocument): Promise<void> {
-	const output = await lintMD(textDocument);
+		const output = await lintMD(textDocument);
+		if (!output) return;
+		const diagnostics = output.validations.map((validation) => {
 
-	const diagnostics = output.validations.map((validation) => {
+			const start = textDocument.positionAt(validation.index);
+			const end = textDocument.positionAt(validation.index + validation.length);
+			const range = {
+				start,
+				end
+			};
 
-		const start = textDocument.positionAt(validation.index);
-		const end = textDocument.positionAt(validation.index + validation.length);
-		const range = {
-			start,
-			end
-		};
+			const diagnostic: Diagnostic = {
+				severity: DiagnosticSeverity.Warning,
+				message: validation.message,
+				source: 'zhlint',
+				code: validation.target,
+				codeDescription: {
+					href: 'https://zhlint-project.github.io/zhlint/#supported-rules',
+				},
+				range,
+			};
 
-		const diagnostic: Diagnostic = {
-			severity: DiagnosticSeverity.Warning,
-			message: validation.message,
-			source: 'zhlint',
-			code: validation.target,
-			codeDescription: {
-				href: 'https://zhlint-project.github.io/zhlint/#supported-rules',
-			},
-			range,
-		};
+			return diagnostic;
+		});
+		connection.sendDiagnostics({ uri: textDocument.uri, diagnostics });
+}
 
-		return diagnostic;
-	});
-	connection.sendDiagnostics({ uri: textDocument.uri, diagnostics });
+async function formatDocument(identifier: TextDocumentIdentifier, range?: Range) {
+	const textDocument = documents.get(identifier.uri);
+	if (textDocument) {
+		if (!range) {
+			range = Range.create(0, 0, textDocument.lineCount, 0);
+		}
+		
+		const output = await lintMD(textDocument, range);
+		if (output) {
+			return [
+				{
+					range,
+					newText: output.result
+				}
+			];
+		}
+	}
 }
 
 connection.onDocumentFormatting(async (params) => {
-	const textDocument = documents.get(params.textDocument.uri);
-	if (textDocument) {
-		const output = await lintMD(textDocument);
-		const range = Range.create(0, 0, textDocument.lineCount, 0);
-		return [
-			{
-				range,
-				newText: output.result
-			}
-		];
-	}
+	return formatDocument(params.textDocument);
 });
 
 connection.onDocumentRangeFormatting(async (params) => {
-	const textDocument = documents.get(params.textDocument.uri);
-	if (textDocument) {
-		const {
-			range,
-		} = params;
-		const output = await lintMD(textDocument, range);
-		return [
-			{
-				range,
-				newText: output.result
-			}
-		];
-	}
+	return formatDocument(params.textDocument, params.range);
 });
 
 // Make the text document manager listen on the connection
