@@ -23,10 +23,15 @@ use `zhlint` as your default formatter for markdown
 
 you can use `Shift + Alt + F` or save to format your markdown with `zhlint`
 
-> you can use it in other language like `.txt`
-> ```json
-> 
-> ```
+Currently，only `.md` files are supported。If you want to support other file types，such as `.txt`
+
+```json
+{
+  "files.associations": {
+    "*.txt": "markdown",
+  }
+}
+```
 
 ## options
 
@@ -41,7 +46,7 @@ you can use `Shift + Alt + F` or save to format your markdown with `zhlint`
 }
 ```
 
-more detail，you can look the [zhlint document](https://zhlint-project.github.io/zhlint)
+If you want to know the specifics of each configuration, please refer to the official documentation of [zhlint](https://zhlint-project.github.io/zhlint).
 
 
 ## Dev
