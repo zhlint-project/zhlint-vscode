@@ -9,6 +9,7 @@ export default defineConfig({
 			'./server/package.json',
 			'./server/package-lock.json',
 		],
+
 		commit: true,
 		tag: true,
 		push: false,

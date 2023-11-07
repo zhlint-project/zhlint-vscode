@@ -11,7 +11,7 @@
 		"typescript",
 	],
 	"[markdown]": {
-		"editor.formatOnSave": false,
-		"editor.defaultFormatter": "vscode.markdown-language-features"
+		"editor.formatOnSave": true,
+		"editor.defaultFormatter": "kkopite.zhlint"
 	}
 }
