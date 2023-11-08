@@ -9,6 +9,7 @@ VS Code Extension for [zhlint](https://zhlint-project.github.io/zhlint/#supporte
 
 - lint
 - format
+- support `.zhlintr{c, c.json}` and `.zhlintignore` (**if one of them exist，this extension will use `readRc` and `runWithConfig`，otherwise use `run()` with `zhlint.options` from `settings.json`**)
 
 use `zhlint` as your default formatter for markdown
 
@@ -35,19 +36,10 @@ Currently，only `.md` files are supported。If you want to support other file t
 
 ## options
 
-```json
-{
-	"zhlint.options": {
-		"rules": {},
-		"hyperParse": [],
-		"ignoredCases": [],
-	},
-	"zhlint.debug": false
-}
-```
-
-If you want to know the specifics of each configuration, please refer to the official documentation of [zhlint](https://zhlint-project.github.io/zhlint).
-
+|`key`|`description`|
+|:---:|:-----------:|
+|`options`|see [zhlint options](https://zhlint-project.github.io/zhlint/#options),  `logger` is exclude  |
+|`debug`|print extra message when run zhlint|
 
 ## Dev
 
@@ -57,3 +49,4 @@ If you want to know the specifics of each configuration, please refer to the off
 - Switch to the Run and Debug View in the Sidebar (Ctrl+Shift+D)。
 - Select `Launch Client` from the drop down (if it is not already)。
 - Press ▷ to run the launch config (F5)。
+- Select `Attach to Server` from the drop down，press F5 to attach the debugger to the server

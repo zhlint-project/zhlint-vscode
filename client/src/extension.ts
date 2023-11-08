@@ -38,10 +38,13 @@ export function activate(context: ExtensionContext) {
 	const clientOptions: LanguageClientOptions = {
 		// Register the server for plain text documents
 		documentSelector: [{ scheme: 'file', language: 'markdown' }],
-		// synchronize: {
-		// 	// Notify the server about file changes to '.clientrc files contained in the workspace
-		// 	fileEvents: workspace.createFileSystemWatcher('**/.clientrc')
-		// }
+		diagnosticCollectionName: 'zhlint',
+		synchronize: {
+			fileEvents: [
+				workspace.createFileSystemWatcher('**/.zhlintr{c,c.json}'),
+				workspace.createFileSystemWatcher('**/.zhlintignore'),
+			]
+		}
 	};
 
 	// Create the language client and start the client.

@@ -1,7 +1,4 @@
-import { readFile } from 'fs/promises';
-import { activate, getDocUri } from './helper';
-import * as vscode from 'vscode';
-import * as assert from 'assert';
+import { assertEqualAfterFix } from './helper';
 
 suite('formatter should work', () => {
 	test('formatting work', async () => {
@@ -11,17 +8,7 @@ suite('formatter should work', () => {
 		]; 
 
 		for (const name of names) {
-			const docUri = getDocUri(`${name}.md`);
-			const fixDocUri = getDocUri(`${name}-fixed.md`);
-			const { doc } = await activate(docUri);
-
-			const fixed = await readFile(fixDocUri.fsPath, 'utf8');
-
-			// format docUri
-			await vscode.commands.executeCommand('editor.action.formatDocument');	
-			const actual = doc.getText();
-
-			assert.equal(actual, fixed);
+			await assertEqualAfterFix(name);
 		}
 	});
 

@@ -9,10 +9,12 @@
 		"url": "https://github.com/zhlint-project/zhlint-vscode"
 	},
 	"publisher": "kkopite",
-	"categories": [],
+	"categories": [
+		"Linters",
+		"Formatters"
+	],
 	"keywords": [
-		"zhlint",
-		"vs code"
+		"zhlint"
 	],
 	"engines": {
 		"vscode": "^1.75.0"
@@ -25,7 +27,7 @@
 	"contributes": {
 		"configuration": {
 			"type": "object",
-			"title": "Example configuration",
+			"title": "zhlint",
 			"properties": {
 				"zhlint.trace.server": {
 					"scope": "window",
@@ -139,6 +141,7 @@
 							"description": "provide exception cases which you would like to skip.",
 							"items": {
 								"type": "object",
+								"required": ["textStart"],
 								"properties": {
 									"prefix": {
 										"type": "string"
@@ -171,7 +174,15 @@
 					}
 				}
 			}
-		}
+		},
+		"languages": [
+			{
+				"id": "jsonc",
+				"filenames": [
+					".zhlintrc"
+				]
+			}
+		]
 	},
 	"scripts": {
 		"vscode:prepublish": "npm run compile",
