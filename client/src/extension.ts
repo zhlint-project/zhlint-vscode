@@ -4,7 +4,7 @@
  * ------------------------------------------------------------------------------------------ */
 
 import * as path from 'path';
-import { workspace, ExtensionContext } from 'vscode';
+import * as vscode from 'vscode';
 
 import {
 	LanguageClient,
@@ -12,10 +12,11 @@ import {
 	ServerOptions,
 	TransportKind
 } from 'vscode-languageclient/node';
+import { RuleNodeProvider } from './RuleView';
 
 let client: LanguageClient;
 
-export function activate(context: ExtensionContext) {
+export function activate(context: vscode.ExtensionContext) {
 	// The server is implemented in node
 	const serverModule = context.asAbsolutePath(
 		path.join('server', 'out', 'server.js')
@@ -41,8 +42,8 @@ export function activate(context: ExtensionContext) {
 		diagnosticCollectionName: 'zhlint',
 		synchronize: {
 			fileEvents: [
-				workspace.createFileSystemWatcher('**/.zhlintr{c,c.json}'),
-				workspace.createFileSystemWatcher('**/.zhlintignore'),
+				vscode.workspace.createFileSystemWatcher('**/.zhlintr{c,c.json}'),
+				vscode.workspace.createFileSystemWatcher('**/.zhlintignore'),
 			]
 		}
 	};
@@ -57,6 +58,25 @@ export function activate(context: ExtensionContext) {
 
 	// Start the client. This will also launch the server
 	client.start();
+
+	const ruleProvider = new RuleNodeProvider(context);
+	ruleProvider.register();
+
+	client.onNotification('zhlint/rules', (params) => {
+		const uri = decodeURIComponent(params.uri);
+		// 存起来
+		ruleProvider.saveNewDiff(uri, params.diff);
+
+		// TODO: 如何监听activeEditor变化
+		ruleProvider.changeActiveEditor(uri);
+	});
+
+	client.onNotification('zhlint/clearRules', (params) => {
+		const uri = decodeURIComponent(params.uri);
+		ruleProvider.deleteNewDiff(uri);
+	});
+
+
 }
 
 export function deactivate(): Thenable<void> | undefined {

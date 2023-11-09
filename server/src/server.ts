@@ -184,6 +184,9 @@ async function getDocumentSettings(textDocument: TextDocument): Promise<ZhlintSe
 // Only keep settings for open documents
 documents.onDidClose(e => {
 	documentSettings.delete(e.document.uri);
+	connection.sendNotification('zhlint/clearRules', {
+		uri: e.document.uri,
+	});
 });
 
 // The content of a text document has changed. This event is emitted
@@ -245,6 +248,13 @@ async function validateTextDocument(textDocument: TextDocument): Promise<void> {
 			return diagnostic;
 		});
 		connection.sendDiagnostics({ uri: textDocument.uri, diagnostics });
+		connection.sendNotification('zhlint/rules', {
+			diff: output.diff,
+			origin: output.origin,
+			result: output.result,
+			uri: textDocument.uri
+		});
+		console.log('send uri', textDocument.uri);
 }
 
 async function formatDocument(identifier: TextDocumentIdentifier, range?: Range) {

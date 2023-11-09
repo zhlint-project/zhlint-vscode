@@ -107,6 +107,29 @@
 				"fileMatch": ".zhlintrc.json",
 				"url": "./zhlint-json-schema.json"
 			}
+		],
+		"views": {
+			"explorer": [
+				{
+					"id": "zhlintRules",
+					"name": "zhlint rules",
+					"icon": "res/icon.png"
+				}
+			]
+		},
+		"menus": {
+			"view/item/context": [
+				{
+					"command": "zhlint.openRuleDiff",
+					"group": "inline"
+				}
+			]
+		},
+		"commands": [
+			{
+				"command": "zhlint.openRuleDiff",
+				"title": "Open Diff Rule"
+			}
 		]
 	},
 	"scripts": {
