@@ -122,6 +122,12 @@
 				{
 					"command": "zhlint.openRuleDiff"
 				}
+			],
+			"commandPalette": [
+				{
+					"command": "zhlint.openRuleDiff",
+					"when": "false"
+				}
 			]
 		},
 		"commands": [
