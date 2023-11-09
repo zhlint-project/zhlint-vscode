@@ -254,7 +254,6 @@ async function validateTextDocument(textDocument: TextDocument): Promise<void> {
 			result: output.result,
 			uri: textDocument.uri
 		});
-		console.log('send uri', textDocument.uri);
 }
 
 async function formatDocument(identifier: TextDocumentIdentifier, range?: Range) {

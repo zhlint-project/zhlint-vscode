@@ -59,22 +59,9 @@ export function activate(context: vscode.ExtensionContext) {
 	// Start the client. This will also launch the server
 	client.start();
 
-	const ruleProvider = new RuleNodeProvider(context);
+	const ruleProvider = new RuleNodeProvider(context, client);
 	ruleProvider.register();
 
-	client.onNotification('zhlint/rules', (params) => {
-		const uri = decodeURIComponent(params.uri);
-		// 存起来
-		ruleProvider.saveNewDiff(uri, params.diff);
-
-		// TODO: 如何监听activeEditor变化
-		ruleProvider.changeActiveEditor(uri);
-	});
-
-	client.onNotification('zhlint/clearRules', (params) => {
-		const uri = decodeURIComponent(params.uri);
-		ruleProvider.deleteNewDiff(uri);
-	});
 
 
 }

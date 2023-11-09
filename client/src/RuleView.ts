@@ -1,5 +1,6 @@
 import * as vscode from 'vscode';
 import { ZhlintDiffRule } from './types';
+import { LanguageClient } from 'vscode-languageclient/node';
 
 export class RuleNodeProvider implements vscode.TreeDataProvider<RuleNode> {
 
@@ -9,22 +10,40 @@ export class RuleNodeProvider implements vscode.TreeDataProvider<RuleNode> {
 	private _diffMap = new Map<string, ZhlintDiffRule[]>();
 	private activeEditorUri?: string;
 
-	constructor(private context: vscode.ExtensionContext) {
+	constructor(private context: vscode.ExtensionContext, private client: LanguageClient) {
 	}
 
 	private createZhlintUri(uri: string, rule: ZhlintDiffRule, left: boolean) {
+		// 传过来的uri中 ":" 被转义了，这里Uri.parse又转回去了
+		// 因此其他地方的uri都要decodeURIComponent，保证一致
 		return vscode.Uri.parse(`zhlint://diff/${uri}?ruleName=${rule.ruleName}&left=${left}`);
 	}
 
 	public register() {
-		vscode.window.registerTreeDataProvider('zhlintRules', this);
-		vscode.commands.registerCommand('zhlint.openRuleDiff', (diff) => {
+		const ctx = this.context;
+		const client = this.client;
+		ctx.subscriptions.push(vscode.window.registerTreeDataProvider('zhlintRules', this));
+		ctx.subscriptions.push(vscode.commands.registerCommand('zhlint.openRuleDiff', (diff) => {
 			console.log('==> 打开查看', diff);
-			// 为啥这里没有监听到？
-		});
+		}));
+		this.handleChangeActiveEditor(vscode.window.activeTextEditor);
+
+		ctx.subscriptions.push(vscode.window.onDidChangeActiveTextEditor((editor) => {
+			this.handleChangeActiveEditor(editor);
+		}));
+
+
+		ctx.subscriptions.push(client.onNotification('zhlint/rules', (params) => {
+			// 存起来
+			this.saveNewDiff(params.uri, params.diff);
+		}));
+
+		ctx.subscriptions.push(client.onNotification('zhlint/clearRules', (params) => {
+			this.deleteNewDiff(params.uri);
+		}));
 
 		// 这里模拟出 自定义协议zhlint:// 用来提供给diff时获取文件
-		vscode.workspace.registerTextDocumentContentProvider('zhlint', {
+		ctx.subscriptions.push(vscode.workspace.registerTextDocumentContentProvider('zhlint', {
 			provideTextDocumentContent: (uri) => {
 				// 前面有个"/"去掉
 				const activeUri = uri.path.slice(1);
@@ -38,10 +57,8 @@ export class RuleNodeProvider implements vscode.TreeDataProvider<RuleNode> {
 				}, {} as any);
 				const ruleName = queryMap.ruleName;
 				const left = queryMap.left === 'true';
-				
-				console.log('open ', activeUri, query, ruleName, left);
+
 				const diffs = this._diffMap.get(activeUri);
-				console.log('find diffs', activeUri, diffs, [...this._diffMap.keys()]);
 
 				if (!diffs) {
 					return '';
@@ -55,7 +72,7 @@ export class RuleNodeProvider implements vscode.TreeDataProvider<RuleNode> {
 				if (left) return diff.lastValue;
 				return diff.value;
 			}
-		});
+		}));
 
 		const tree = vscode.window.createTreeView('zhlintRules', {
 			treeDataProvider: this,
@@ -76,7 +93,15 @@ export class RuleNodeProvider implements vscode.TreeDataProvider<RuleNode> {
 		this.context.subscriptions.push(tree);
 	}
 
+	handleChangeActiveEditor(editor?: vscode.TextEditor) {
+		const uri = editor?.document.uri;
+		if (uri && uri.scheme === 'file') {
+			this.changeActiveEditor(uri.toString());
+		}
+	}
+
 	saveNewDiff(uri: string, diff?: ZhlintDiffRule[]) {
+		uri = decodeURIComponent(uri);
 		if (diff) {
 			this._diffMap.set(uri, diff);
 			this.refresh();
@@ -86,11 +111,13 @@ export class RuleNodeProvider implements vscode.TreeDataProvider<RuleNode> {
 	}
 
 	deleteNewDiff(uri: string) {
+		uri = decodeURIComponent(uri);
 		this._diffMap.delete(uri);
 		this.refresh();
 	}
 
 	changeActiveEditor(uri: string) {
+		uri = decodeURIComponent(uri);
 		this.activeEditorUri = uri;
 		this.refresh();
 	}

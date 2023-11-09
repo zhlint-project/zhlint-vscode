@@ -54,7 +54,7 @@ function toRange(sLine: number, sChar: number, eLine: number, eChar: number) {
 async function testDiagnostics(docUri: vscode.Uri, exceptUri: vscode.Uri) {
 	await activate(docUri);
 
-	const expectedDiagnostics = JSON.parse(await readFile(exceptUri.fsPath, 'utf8')).map((d: any) => toDiagnostic(d.message, d.target, d.range));
+	const expectedDiagnostics = JSON.parse(await readFile(exceptUri.fsPath, 'utf8')).map((d: any) => toDiagnostic(d.message, d.target, d.range)) as vscode.Diagnostic[];
 
 	const actualDiagnostics = vscode.languages.getDiagnostics(docUri);
 
