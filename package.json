@@ -111,7 +111,7 @@
 		"views": {
 			"explorer": [
 				{
-					"id": "zhlintRules",
+					"id": "zhlint",
 					"name": "zhlint rules",
 					"icon": "res/icon.png"
 				}
@@ -120,14 +120,14 @@
 		"menus": {
 			"view/item/context": [
 				{
-					"command": "zhlint.openRuleDiff",
-					"group": "inline"
+					"command": "zhlint.openRuleDiff"
 				}
 			]
 		},
 		"commands": [
 			{
 				"command": "zhlint.openRuleDiff",
+				"category": "zhlint",
 				"title": "Open Diff Rule"
 			}
 		]

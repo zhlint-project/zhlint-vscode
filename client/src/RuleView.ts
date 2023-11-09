@@ -22,9 +22,14 @@ export class RuleNodeProvider implements vscode.TreeDataProvider<RuleNode> {
 	public register() {
 		const ctx = this.context;
 		const client = this.client;
-		ctx.subscriptions.push(vscode.window.registerTreeDataProvider('zhlintRules', this));
+		ctx.subscriptions.push(vscode.window.registerTreeDataProvider('zhlint', this));
 		ctx.subscriptions.push(vscode.commands.registerCommand('zhlint.openRuleDiff', (diff) => {
-			console.log('==> 打开查看', diff);
+			vscode.commands.executeCommand(
+				'vscode.diff',
+				this.createZhlintUri(this.activeEditorUri || '', diff.diff, true),
+				this.createZhlintUri(this.activeEditorUri || '', diff.diff, false),
+				`parse: ${diff.diff.ruleName}`
+			);
 		}));
 		this.handleChangeActiveEditor(vscode.window.activeTextEditor);
 
@@ -73,24 +78,6 @@ export class RuleNodeProvider implements vscode.TreeDataProvider<RuleNode> {
 				return diff.value;
 			}
 		}));
-
-		const tree = vscode.window.createTreeView('zhlintRules', {
-			treeDataProvider: this,
-			showCollapseAll: true,
-		});
-
-		tree.onDidChangeSelection(e => {
-			console.log('click', e);
-			const diff = e.selection[0];
-			vscode.commands.executeCommand(
-				'vscode.diff',
-				this.createZhlintUri(this.activeEditorUri || '', diff.diff, true),
-				this.createZhlintUri(this.activeEditorUri || '', diff.diff, false),
-				`parse: ${diff.diff.ruleName}`
-			);
-		});
-
-		this.context.subscriptions.push(tree);
 	}
 
 	handleChangeActiveEditor(editor?: vscode.TextEditor) {
@@ -159,7 +146,15 @@ export class RuleNode extends vscode.TreeItem {
 		super(getLabel(diff), collapsibleState);
 		this.diff = diff;
 		this.iconPath = getIcon(diff);
+		// 点击改item，触发指令，携带参数
+		this.command = {
+			title: 'preview diff',
+			command: 'zhlint.openRuleDiff',
+			arguments: [this]
+		};
 	}
+
+	contextValue = 'zhlintDiffRule';
 }
 
 function getLabel(diff: ZhlintDiffRule) {
