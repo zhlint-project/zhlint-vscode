@@ -12,5 +12,10 @@
 		"vscode-languageserver-textdocument": "^1.0.8",
 		"zhlint": "^0.7.1"
 	},
-	"scripts": {}
+	"scripts": {
+		"postinstall": "patch-package"
+	},
+	"devDependencies": {
+		"patch-package": "^8.0.0"
+	}
 }
