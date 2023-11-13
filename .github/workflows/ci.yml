@@ -51,3 +51,5 @@ jobs:
 
       - name: Test
         run: npm run test
+        env:
+          DISPLAY: ":99.0"
