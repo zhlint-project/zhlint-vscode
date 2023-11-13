@@ -43,14 +43,17 @@ jobs:
         with:
           node-version: ${{ matrix.node }}
 
+      # https://github.com/prettier/prettier-vscode/blob/affc1e5b44fc6d0d9d4a957e327e0da57045bf56/.github/workflows/main.yml#L26-L44
+      - run: /usr/bin/Xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 & echo "Started xvfb"
+        shell: bash
+        if: ${{ success() && matrix.os == 'ubuntu-latest' }}
+
       - name: Install
         run: npm install
 
       - name: Build
         run: npm run compile
 
-      - run: /usr/bin/Xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 & echo "Started xvfb"
-        shell: bash
 
       - name: Test
         run: npm run test
