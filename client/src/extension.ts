@@ -44,6 +44,8 @@ export function activate(context: vscode.ExtensionContext) {
 			fileEvents: [
 				vscode.workspace.createFileSystemWatcher('**/.zhlintr{c,c.json}'),
 				vscode.workspace.createFileSystemWatcher('**/.zhlintignore'),
+				// .zhlintignore has been used to skip, so use .lintignore to filter file
+				vscode.workspace.createFileSystemWatcher('**/.experimental-zhlintignore')
 			]
 		}
 	};

@@ -9,8 +9,14 @@ VS Code Extension for [zhlint](https://zhlint-project.github.io/zhlint/#supporte
 
 - lint
 - format
+
+## Experimental Feature
+
+these feature maybe remove in the future
+
 - support `.zhlintr{c, c.json}` and `.zhlintignore` (**if one of them exist，this extension will use `readRc` and `runWithConfig`，otherwise use `run()` with `zhlint.options` from `settings.json`**)
 - rule diff viewer
+- ignore files or directories with `.experimental-zhlintignore`，checkout [ignore](https://www.npmjs.com/package/ignore)
 
 use `zhlint` as your default formatter for markdown
 
@@ -38,11 +44,12 @@ Currently，only `.md` files are supported。If you want to support other file t
 ## options
 
 |`key`|`description`|`default`|
-|:---:|:-----------|:-------:|
+|:----|:-----------|:-------:|
 |`zhlint.options`|see [zhlint options](https://zhlint-project.github.io/zhlint/#options),  `logger` is exclude  |`{}`|
 |`zhlint.debug`|print extra message when run zhlint|`false`|
-|`zhlint.experimental.diff`|enable rule diff viewer in explorer (**experimental**)|`false`|
-|`zhlint.experimental.config`|enable use `.zhlintrc` and `.zhlintignore` in workspace (**experimental**)|`false`|
+|`zhlint.experimental.diff` |enable rule diff viewer in explorer |`false`|
+|`zhlint.experimental.config`|enable use `.zhlintrc` and `.zhlintignore` to config in workspace |`false`|
+|`zhlint.experimental.ignore`|enable use `.experimental-zhlintignore` to ignore files or directories while linting by specifying one or more glob patterns|`false`|
 
 ## Dev
 

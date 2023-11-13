@@ -25,6 +25,7 @@ import { existsSync } from 'fs';
 
 import { run, Options, readRc, runWithConfig } from 'zhlint';
 import { defaultConfigFilename, defaultIgnoreFilename } from './constants';
+import FileFilter from './FileFilter';
 
 type Config = ReturnType<typeof readRc>;
 
@@ -41,8 +42,11 @@ let hasDiagnosticRelatedInformationCapability = false;
 
 let localZhlintConfig: Config | null = null;
 
+const fileFilter = new FileFilter();
+
 connection.onInitialize((params: InitializeParams) => {
 	const capabilities = params.capabilities;
+
 
 	// Does the client support the `workspace/configuration` request?
 	// If not, we fall back using global settings.
@@ -102,7 +106,8 @@ const defaultSettings: ZhlintSettings = {
 	debug: false,
 	experimental: {
 		diff: false,
-		config: false
+		config: false,
+		ignore: false,
 	}
 };
 
@@ -112,6 +117,7 @@ interface ZhlintSettings {
 	experimental: {
 		diff: boolean
 		config: boolean
+		ignore: boolean
 	}
 }
 let globalSettings: ZhlintSettings = defaultSettings;
@@ -204,7 +210,11 @@ documents.onDidChangeContent(change => {
 });
 
 async function lintMD(textDocument: TextDocument, range?: Range) {
+	const uri = textDocument.uri;
+
 	const settings = await getDocumentSettings(textDocument);
+	if (settings.experimental.ignore && fileFilter.ignores(uri)) return;
+
 	const res = getZhlintConfig(textDocument, settings);
 	if (settings.debug) {
 		console.log('get zhlint config', res, settings);
@@ -233,7 +243,13 @@ async function lintMD(textDocument: TextDocument, range?: Range) {
 
 async function validateTextDocument(textDocument: TextDocument): Promise<void> {
 		const output = await lintMD(textDocument);
-		if (!output) return;
+		if (!output) {
+			connection.sendDiagnostics({ uri: textDocument.uri, diagnostics: [] });
+			connection.sendNotification('zhlint/clearRules', {
+				uri: textDocument.uri,
+			});
+			return;
+		}
 		const diagnostics = output.validations.map((validation) => {
 
 			const start = textDocument.positionAt(validation.index);
@@ -295,6 +311,7 @@ connection.onDocumentRangeFormatting(async (params) => {
 // watch zhlintrc and zhlintignore
 connection.onDidChangeWatchedFiles(async (params) => {
 	localZhlintConfig = null;
+	fileFilter.reload(params);
 	documents.all().forEach(validateTextDocument);
 });
 

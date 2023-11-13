@@ -8,8 +8,10 @@
 		"node": "*"
 	},
 	"dependencies": {
+		"ignore": "^5.2.4",
 		"vscode-languageserver": "^8.1.0",
 		"vscode-languageserver-textdocument": "^1.0.8",
+		"vscode-uri": "^3.0.8",
 		"zhlint": "^0.7.1"
 	},
 	"scripts": {

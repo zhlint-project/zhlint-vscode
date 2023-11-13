@@ -13,5 +13,11 @@
 	"[markdown]": {
 		"editor.formatOnSave": true,
 		"editor.defaultFormatter": "kkopite.zhlint"
-	}
+	},
+	"zhlint.options": {
+		"rules": {
+			"preset": "default"
+		}
+	},
+	"zhlint.experimental.ignore": true
 }

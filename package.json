@@ -52,6 +52,12 @@
 					"description": "This is an experimental feature, it maybe remove",
 					"default": false
 				},
+				"zhlint.experimental.ignore": {
+					"type": "boolean",
+					"title": "enable ignore by use .experimental-zhlintignore",
+					"description": "You can configure zhlint to ignore certain files and directories while linting by specifying one or more glob patterns",
+					"default": false
+				},
 				"zhlint.debug": {
 					"type": "boolean",
 					"default": false
@@ -107,6 +113,12 @@
 				"id": "jsonc",
 				"filenames": [
 					".zhlintrc"
+				]
+			},
+			{
+				"id": "ignore",
+				"filenames": [
+					".experimental-zhlintignore"
 				]
 			}
 		],

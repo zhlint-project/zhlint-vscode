@@ -25,12 +25,26 @@ suite('Should get diagnostics', () => {
 	});
 
 	test('should get empty diagnostics with disabled', async () => {
-		const docUri = getDocUri('example-disabled.md');
-		await activate(docUri);
-		const diagnostics = vscode.languages.getDiagnostics(docUri);
-		assert.equal(diagnostics.length, 0);
+		await testIgnore('example-disabled.md');
+	});
+
+	test('ignore should work', async () => {
+		const ignores = [
+			'a/b/c.md'
+		];
+
+		for (const name of ignores) {
+			await testIgnore(name);
+		}
 	});
 });
+
+async function testIgnore(name: string) {
+	const docUri = getDocUri(name);
+	await activate(docUri);
+	const diagnostics = vscode.languages.getDiagnostics(docUri);
+	assert.equal(diagnostics.length, 0);
+}
 
 function toDiagnostic(message: string, target: string, range: [number, number, number, number]) {
 	return {
