@@ -25,6 +25,7 @@ async function main() {
 			launchArgs: [workspace, '--disable-extensions'],
 		});
 	} catch (err) {
+		console.error(err);
 		console.error('Failed to run tests');
 		process.exit(1);
 	}
