@@ -4,7 +4,7 @@
  * ------------------------------------------------------------------------------------------ */
 
 import * as path from 'path';
-import { workspace, ExtensionContext } from 'vscode';
+import * as vscode from 'vscode';
 
 import {
 	LanguageClient,
@@ -12,10 +12,11 @@ import {
 	ServerOptions,
 	TransportKind
 } from 'vscode-languageclient/node';
+import { RuleNodeProvider } from './RuleView';
 
 let client: LanguageClient;
 
-export function activate(context: ExtensionContext) {
+export function activate(context: vscode.ExtensionContext) {
 	// The server is implemented in node
 	const serverModule = context.asAbsolutePath(
 		path.join('server', 'out', 'server.js')
@@ -38,10 +39,13 @@ export function activate(context: ExtensionContext) {
 	const clientOptions: LanguageClientOptions = {
 		// Register the server for plain text documents
 		documentSelector: [{ scheme: 'file', language: 'markdown' }],
-		// synchronize: {
-		// 	// Notify the server about file changes to '.clientrc files contained in the workspace
-		// 	fileEvents: workspace.createFileSystemWatcher('**/.clientrc')
-		// }
+		diagnosticCollectionName: 'zhlint',
+		synchronize: {
+			fileEvents: [
+				vscode.workspace.createFileSystemWatcher('**/.zhlintr{c,c.json}'),
+				vscode.workspace.createFileSystemWatcher('**/.zhlintignore'),
+			]
+		}
 	};
 
 	// Create the language client and start the client.
@@ -54,6 +58,12 @@ export function activate(context: ExtensionContext) {
 
 	// Start the client. This will also launch the server
 	client.start();
+
+	const ruleProvider = new RuleNodeProvider(context, client);
+	ruleProvider.register();
+
+
+
 }
 
 export function deactivate(): Thenable<void> | undefined {

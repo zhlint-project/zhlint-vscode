@@ -9,10 +9,12 @@
 		"url": "https://github.com/zhlint-project/zhlint-vscode"
 	},
 	"publisher": "kkopite",
-	"categories": [],
+	"categories": [
+		"Linters",
+		"Formatters"
+	],
 	"keywords": [
-		"zhlint",
-		"vs code"
+		"zhlint"
 	],
 	"engines": {
 		"vscode": "^1.75.0"
@@ -25,7 +27,7 @@
 	"contributes": {
 		"configuration": {
 			"type": "object",
-			"title": "Example configuration",
+			"title": "zhlint",
 			"properties": {
 				"zhlint.trace.server": {
 					"scope": "window",
@@ -38,6 +40,18 @@
 					"default": "off",
 					"description": "Traces the communication between VS Code and the language server."
 				},
+				"zhlint.experimental.diff": {
+					"type": "boolean",
+					"title": "show rule diff in explorer",
+					"description": "This is an experimental feature, it maybe remove",
+					"default": false
+				},
+				"zhlint.experimental.config": {
+					"type": "boolean",
+					"title": "use .zhlintrc and .zhlintignore in workspace",
+					"description": "This is an experimental feature, it maybe remove",
+					"default": false
+				},
 				"zhlint.debug": {
 					"type": "boolean",
 					"default": false
@@ -46,99 +60,15 @@
 					"type": "object",
 					"properties": {
 						"rules": {
-							"type": "object",
-							"properties": {
-								"preset": {
-									"type": "string",
-									"enum": [
-										"default"
-									],
-									"description": "Custom preset"
-								},
-								"halfWidthPunctuation": {
-									"type": "string",
-									"description": "Convert these punctuations into half-width."
-								},
-								"fullWidthPunctuation": {
-									"type": "string",
-									"description": "Convert these punctuations into full-width."
-								},
-								"adjustedFullWidthPunctuation": {
-									"type": "string",
-									"description": "Treat specific full-width punctuations as half-width for space processing"
-								},
-								"unifiedPunctuation": {
-									"type": "string",
-									"enum": [
-										"simplified",
-										"traditional"
-									],
-									"description": "Convert traditional Chinese punctuations into simplified ones or vice versa"
-								},
-								"skipAbbrs": {
-									"type": "array",
-									"description": "Special case: skip `fullWidthPunctuation` for abbreviations"
-								},
-								"spaceBetweenHalfWidthLetters": {
-									"type": "boolean",
-									"description": "Toggle space between half-width letters"
-								},
-								"noSpaceBetweenFullWidthLetters": {
-									"type": "boolean",
-									"description": "Toggle space between full-width letters"
-								},
-								"spaceBetweenMixedWidthLetters": {
-									"type": "boolean",
-									"description": "Toggle space between mixed-width letters"
-								},
-								"skipZhUnits": {
-									"type": "string",
-									"description": "Special case: skip `spaceBetweenMixedWidthContent` for numbers x Chinese units"
-								},
-								"noSpaceBeforePunctuation": {
-									"type": "boolean",
-									"description": "Toggle space before punctuations"
-								},
-								"spaceAfterHalfWidthPunctuation": {
-									"type": "boolean"
-								},
-								"noSpaceAfterFullWidthPunctuation": {
-									"type": "boolean"
-								},
-								"spaceOutsideHalfQuote": {
-									"type": "boolean"
-								},
-								"noSpaceOutsideFullQuote": {
-									"type": "boolean"
-								},
-								"noSpaceInsideQuote": {
-									"type": "boolean"
-								},
-								"spaceOutsideHalfBracket": {
-									"type": "boolean"
-								},
-								"noSpaceOutsideFullBracket": {
-									"type": "boolean"
-								},
-								"noSpaceInsideBracket": {
-									"type": "boolean"
-								},
-								"spaceOutsideCode": {
-									"type": "boolean"
-								},
-								"noSpaceInsideWrapper": {
-									"type": "boolean"
-								},
-								"trimSpace": {
-									"type": "boolean"
-								}
-							}
+							"$ref": "./zhlint-rules-schema.json",
+							"description": "customize the linting config"
 						},
 						"ignoredCases": {
 							"type": "array",
 							"description": "provide exception cases which you would like to skip.",
 							"items": {
 								"type": "object",
+								"required": ["textStart"],
 								"properties": {
 									"prefix": {
 										"type": "string"
@@ -171,7 +101,50 @@
 					}
 				}
 			}
-		}
+		},
+		"languages": [
+			{
+				"id": "jsonc",
+				"filenames": [
+					".zhlintrc"
+				]
+			}
+		],
+		"jsonValidation": [
+			{
+				"fileMatch": ".zhlintrc",
+				"url": "./zhlint-json-schema.json"
+			},
+			{
+				"fileMatch": ".zhlintrc.json",
+				"url": "./zhlint-json-schema.json"
+			}
+		],
+		"views": {
+			"explorer": [
+				{
+					"id": "zhlint",
+					"name": "zhlint rules",
+					"icon": "res/icon.png",
+					"when": "config.zhlint.experimental.diff"
+				}
+			]
+		},
+		"menus": {
+			"commandPalette": [
+				{
+					"command": "zhlint.openRuleDiff",
+					"when": "false"
+				}
+			]
+		},
+		"commands": [
+			{
+				"command": "zhlint.openRuleDiff",
+				"category": "zhlint",
+				"title": "Open Diff Rule"
+			}
+		]
 	},
 	"scripts": {
 		"vscode:prepublish": "npm run compile",

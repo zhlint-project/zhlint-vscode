@@ -4,6 +4,7 @@
 			"preset": "default"
 		}
 	},
+	"zhlint.experimental.config": true,
 	"[markdown]": {
 		"editor.defaultFormatter": "kkopite.zhlint"
 	}

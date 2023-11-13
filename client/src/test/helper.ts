@@ -5,6 +5,8 @@
 
 import * as vscode from 'vscode';
 import * as path from 'path';
+import { readFile } from 'fs/promises';
+import * as assert from 'assert';
 
 export let doc: vscode.TextDocument;
 export let editor: vscode.TextEditor;
@@ -48,4 +50,22 @@ export async function setTestContent(content: string): Promise<boolean> {
 		doc.positionAt(doc.getText().length)
 	);
 	return editor.edit(eb => eb.replace(all, content));
+}
+
+export async function assertEqualAfterFix(name: string, selections?: vscode.Selection[]) {
+	const docUri = getDocUri(`${name}.md`);
+	const fixDocUri = getDocUri(`${name}-fixed.md`);
+	const { doc, editor } = await activate(docUri);
+	const fixed = await readFile(fixDocUri.fsPath, 'utf8');
+
+	// format docUri
+	if (selections) {
+		editor.selections = selections;
+		await vscode.commands.executeCommand('editor.action.formatSelection');
+	} else {
+		await vscode.commands.executeCommand('editor.action.formatDocument');	
+	}
+	const actual = doc.getText();
+
+	assert.equal(actual, fixed);
 }

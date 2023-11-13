@@ -1,0 +1,37 @@
+{
+	"$schema": "http://json-schema.org/draft-07/schema#",
+	"properties": {
+		"preset": {
+			"type": "string",
+			"enum": [
+				"default"
+			],
+			"description": "Custom preset"
+		},
+		"rules": {
+			"description": "customize the linting config",
+			"$ref": "./zhlint-rules-schema.json"
+		},
+		"ignoredCases": {
+			"type": "array",
+			"description": "provide exception cases which you would like to skip.",
+			"items": {
+				"type": "string",
+				"description": "Just follows a certain format inspired from https://github.com/WICG/scroll-to-text-fragment"
+			}
+		},
+		"hyperParse": {
+			"type": "array",
+			"description": "customize the hyper parser by their names. It could be `undefined` which means just use default ignored cases parser, Markdown parser and the Hexo tags parser.",
+			"items": {
+				"type": "string",
+				"enum": [
+					"ignore",
+					"hexo",
+					"vuepress",
+					"markdown"
+				]
+			}
+		}
+	}
+}

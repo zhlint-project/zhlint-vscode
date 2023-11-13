@@ -20,7 +20,13 @@ import {
 	TextDocument
 } from 'vscode-languageserver-textdocument';
 
-import { run, Options, Result } from 'zhlint';
+import { resolve } from 'path';
+import { existsSync } from 'fs';
+
+import { run, Options, readRc, runWithConfig } from 'zhlint';
+import { defaultConfigFilename, defaultIgnoreFilename } from './constants';
+
+type Config = ReturnType<typeof readRc>;
 
 // Create a connection for the server, using Node's IPC as a transport.
 // Also include all preview / proposed LSP features.
@@ -32,6 +38,8 @@ const documents: TextDocuments<TextDocument> = new TextDocuments(TextDocument);
 let hasConfigurationCapability = false;
 let hasWorkspaceFolderCapability = false;
 let hasDiagnosticRelatedInformationCapability = false;
+
+let localZhlintConfig: Config | null = null;
 
 connection.onInitialize((params: InitializeParams) => {
 	const capabilities = params.capabilities;
@@ -91,12 +99,20 @@ const defaultSettings: ZhlintSettings = {
 			preset: 'default'
 		}
 	},
-	debug: false
+	debug: false,
+	experimental: {
+		diff: false,
+		config: false
+	}
 };
 
 interface ZhlintSettings {
 	options: Options;
 	debug: boolean;
+	experimental: {
+		diff: boolean
+		config: boolean
+	}
 }
 let globalSettings: ZhlintSettings = defaultSettings;
 
@@ -108,6 +124,7 @@ connection.onDidChangeConfiguration(change => {
 		// Reset all cached document settings
 		documentSettings.clear();
 	} else {
+
 		globalSettings = <ZhlintSettings>(
 			(change.settings.zhlint || defaultSettings)
 		);
@@ -117,10 +134,50 @@ connection.onDidChangeConfiguration(change => {
 	documents.all().forEach(validateTextDocument);
 });
 
-function getDocumentSettings(resource: string): Thenable<ZhlintSettings> {
-	if (!hasConfigurationCapability) {
-		return Promise.resolve(globalSettings);
+function checkZhlintConfig(textDocument: TextDocument) {
+	const dir = resolve('.');
+
+	const result: {
+		config?: string
+		ignore?: string
+	} = {};
+
+	result.config = defaultConfigFilename.find((filename) => {
+		return existsSync(resolve(dir, filename));
+	});
+	const ignore = resolve(dir, defaultIgnoreFilename);
+	if (existsSync(ignore)) {
+		result.ignore = defaultIgnoreFilename;
 	}
+
+	return result;
+}
+
+function getZhlintConfig(textDocument: TextDocument, options: ZhlintSettings): { type: 'option', options: Options } | { type: 'config', config: Config } {
+	const result = checkZhlintConfig(textDocument);
+
+	if (options.experimental.config && (result.config || result.ignore)) {
+		if (!localZhlintConfig) {
+			localZhlintConfig = readRc('.', result.config || defaultConfigFilename[0], result.ignore || defaultIgnoreFilename, console);
+		}
+		return {
+			type: 'config',
+			config: localZhlintConfig
+		};
+	}
+
+	return {
+		type: 'option',
+		options: options.options
+	};
+}
+
+async function getDocumentSettings(textDocument: TextDocument): Promise<ZhlintSettings> {
+
+	if (!hasConfigurationCapability) {
+		return globalSettings;
+	}
+	const resource = textDocument.uri;
 	let result = documentSettings.get(resource);
 	if (!result) {
 		result = connection.workspace.getConfiguration({
@@ -135,6 +192,9 @@ function getDocumentSettings(resource: string): Thenable<ZhlintSettings> {
 // Only keep settings for open documents
 documents.onDidClose(e => {
 	documentSettings.delete(e.document.uri);
+	connection.sendNotification('zhlint/clearRules', {
+		uri: e.document.uri,
+	});
 });
 
 // The content of a text document has changed. This event is emitted
@@ -144,17 +204,19 @@ documents.onDidChangeContent(change => {
 });
 
 async function lintMD(textDocument: TextDocument, range?: Range) {
-	const settings = await getDocumentSettings(textDocument.uri);
+	const settings = await getDocumentSettings(textDocument);
+	const res = getZhlintConfig(textDocument, settings);
+	if (settings.debug) {
+		console.log('get zhlint config', res, settings);
+	}
+
 	const text = textDocument.getText(range);
 	try {
-		const options: Options = {
-			...settings.options,
-			logger: console	
-		};
 		// FIXME: how to add expand globalThis with __DEV__ so that we do not need to set `"noImplicitAny": false` in tsconfig.json
 		// zhlint use globalThis.__DEV__ to control debug mode
 		globalThis.__DEV__ = settings.debug;
-		const output = run(text, settings.options || {});
+		globalThis.__DIFF__ = settings.experimental.diff;
+		const output = res.type === 'option' ? run(text, res.options) : runWithConfig(text, res.config);
 		return output;
 	} catch (error) {
 		if (!settings.debug) return;
@@ -195,6 +257,12 @@ async function validateTextDocument(textDocument: TextDocument): Promise<void> {
 			return diagnostic;
 		});
 		connection.sendDiagnostics({ uri: textDocument.uri, diagnostics });
+		connection.sendNotification('zhlint/rules', {
+			diff: output.diff,
+			origin: output.origin,
+			result: output.result,
+			uri: textDocument.uri
+		});
 }
 
 async function formatDocument(identifier: TextDocumentIdentifier, range?: Range) {
@@ -222,6 +290,12 @@ connection.onDocumentFormatting(async (params) => {
 
 connection.onDocumentRangeFormatting(async (params) => {
 	return formatDocument(params.textDocument, params.range);
+});
+
+// watch zhlintrc and zhlintignore
+connection.onDidChangeWatchedFiles(async (params) => {
+	localZhlintConfig = null;
+	documents.all().forEach(validateTextDocument);
 });
 
 // Make the text document manager listen on the connection
