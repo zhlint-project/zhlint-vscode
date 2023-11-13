@@ -31,7 +31,7 @@ export async function activate(docUri: vscode.Uri) {
 	};
 }
 
-async function sleep(ms: number) {
+export async function sleep(ms: number) {
 	return new Promise(resolve => setTimeout(resolve, ms));
 }
 
