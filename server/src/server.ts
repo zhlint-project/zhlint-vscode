@@ -99,12 +99,20 @@ const defaultSettings: ZhlintSettings = {
 			preset: 'default'
 		}
 	},
-	debug: false
+	debug: false,
+	experimental: {
+		diff: false,
+		config: false
+	}
 };
 
 interface ZhlintSettings {
 	options: Options;
 	debug: boolean;
+	experimental: {
+		diff: boolean
+		config: boolean
+	}
 }
 let globalSettings: ZhlintSettings = defaultSettings;
 
@@ -148,7 +156,7 @@ function checkZhlintConfig(textDocument: TextDocument) {
 function getZhlintConfig(textDocument: TextDocument, options: ZhlintSettings): { type: 'option', options: Options } | { type: 'config', config: Config } {
 	const result = checkZhlintConfig(textDocument);
 
-	if (result.config || result.ignore) {
+	if (options.experimental.config && (result.config || result.ignore)) {
 		if (!localZhlintConfig) {
 			localZhlintConfig = readRc('.', result.config || defaultConfigFilename[0], result.ignore || defaultIgnoreFilename, console);
 		}
@@ -199,7 +207,7 @@ async function lintMD(textDocument: TextDocument, range?: Range) {
 	const settings = await getDocumentSettings(textDocument);
 	const res = getZhlintConfig(textDocument, settings);
 	if (settings.debug) {
-		console.log('get zhlint config', res);
+		console.log('get zhlint config', res, settings);
 	}
 
 	const text = textDocument.getText(range);
@@ -207,6 +215,7 @@ async function lintMD(textDocument: TextDocument, range?: Range) {
 		// FIXME: how to add expand globalThis with __DEV__ so that we do not need to set `"noImplicitAny": false` in tsconfig.json
 		// zhlint use globalThis.__DEV__ to control debug mode
 		globalThis.__DEV__ = settings.debug;
+		globalThis.__DIFF__ = settings.experimental.diff;
 		const output = res.type === 'option' ? run(text, res.options) : runWithConfig(text, res.config);
 		return output;
 	} catch (error) {

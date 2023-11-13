@@ -40,6 +40,18 @@
 					"default": "off",
 					"description": "Traces the communication between VS Code and the language server."
 				},
+				"zhlint.experimental.diff": {
+					"type": "boolean",
+					"title": "show rule diff in explorer",
+					"description": "This is an experimental feature, it maybe remove",
+					"default": false
+				},
+				"zhlint.experimental.config": {
+					"type": "boolean",
+					"title": "use .zhlintrc and .zhlintignore in workspace",
+					"description": "This is an experimental feature, it maybe remove",
+					"default": false
+				},
 				"zhlint.debug": {
 					"type": "boolean",
 					"default": false
@@ -113,16 +125,12 @@
 				{
 					"id": "zhlint",
 					"name": "zhlint rules",
-					"icon": "res/icon.png"
+					"icon": "res/icon.png",
+					"when": "config.zhlint.experimental.diff"
 				}
 			]
 		},
 		"menus": {
-			"view/item/context": [
-				{
-					"command": "zhlint.openRuleDiff"
-				}
-			],
 			"commandPalette": [
 				{
 					"command": "zhlint.openRuleDiff",
