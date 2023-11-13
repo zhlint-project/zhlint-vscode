@@ -3,7 +3,7 @@
 	"description": "VSCode part of markdown language server with zhlint",
 	"author": "kkopite",
 	"license": "MIT",
-	"version": "0.0.1",
+	"version": "1.0.6",
 	"publisher": "kkopite",
 	"engines": {
 		"vscode": "^1.75.0"
