@@ -283,10 +283,10 @@ index e96877c..e313601 100644
  exports.defaultConfig = {
      noSpaceInsideMark: true
 diff --git a/node_modules/zhlint/lib/run.js b/node_modules/zhlint/lib/run.js
-index bce6286..acb3d89 100644
+index bce6286..8a150b0 100644
 --- a/node_modules/zhlint/lib/run.js
 +++ b/node_modules/zhlint/lib/run.js
-@@ -63,14 +63,26 @@ const lint = (str, normalizedOptions) => {
+@@ -63,14 +63,25 @@ const lint = (str, normalizedOptions) => {
          const result = (0, parser_1.toMutableResult)((0, parser_1.parse)(value, marks), rules);
          parserErrors.push(...result.errors);
          const ignoredMarks = (0, ignore_1.default)(value, status.ignoredByRules, logger);
@@ -296,7 +296,6 @@ index bce6286..acb3d89 100644
              (0, parser_1.travel)(result.tokens, rule);
 -            if (globalThis.__DEV__) {
 +						const cost = Date.now() - now;
-+						console.log(`[use time by ${rule.name}]`, cost)
 +            if (globalThis.__DEV__ || globalThis.__DIFF__) {
                  const currentValue = (0, join_1.default)(result.tokens, start, ignoredMarks, []);
 +								let changed = false;
@@ -314,7 +313,7 @@ index bce6286..acb3d89 100644
                  lastValue = currentValue;
              }
          });
-@@ -82,12 +94,42 @@ const lint = (str, normalizedOptions) => {
+@@ -82,12 +93,42 @@ const lint = (str, normalizedOptions) => {
          return {
              start,
              end,
