@@ -10,14 +10,6 @@ VS Code Extension for [zhlint](https://zhlint-project.github.io/zhlint/#supporte
 - lint
 - format
 
-## Experimental Feature
-
-these feature maybe remove in the future
-
-- support `.zhlintr{c, c.json}` and `.zhlintignore` (**if one of them exist，this extension will use `readRc` and `runWithConfig`，otherwise use `run()` with `zhlint.options` from `settings.json`**)
-- rule diff viewer
-- ignore files or directories with `.experimental-zhlintignore`，checkout [ignore](https://www.npmjs.com/package/ignore)
-
 use `zhlint` as your default formatter for markdown
 
 ```json
@@ -40,6 +32,15 @@ Currently，only `.md` files are supported。If you want to support other file t
   }
 }
 ```
+
+## Experimental Feature
+
+these feature maybe remove in the future
+
+- support `.zhlintr{c, c.json}` and `.zhlintignore` (**if one of them exist，this extension will use `readRc` and `runWithConfig`，otherwise use `run()` with `zhlint.options` from `settings.json`**)
+- rule diff viewer
+- ignore files or directories with `.experimental-zhlintignore`，checkout [ignore](https://www.npmjs.com/package/ignore)
+
 
 ## options
 
