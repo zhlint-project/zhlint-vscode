@@ -225,7 +225,6 @@ async function lintMD(textDocument: TextDocument, range?: Range) {
 
 	const text = textDocument.getText(range);
 	try {
-		// FIXME: how to add expand globalThis with __DEV__ so that we do not need to set `"noImplicitAny": false` in tsconfig.json
 		// zhlint use globalThis.__DEV__ to control debug mode
 		globalThis.__DEV__ = settings.debug;
 		globalThis.__DIFF__ = settings.experimental.diff;
