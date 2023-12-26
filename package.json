@@ -40,6 +40,12 @@
 					"default": "off",
 					"description": "Traces the communication between VS Code and the language server."
 				},
+				"zhlint.enable": {
+					"type": "boolean",
+					"default": true,
+					"title": "Enable zhlint",
+					"description": "Controls whether zhlint is enabled or not."
+				},
 				"zhlint.experimental.diff": {
 					"type": "boolean",
 					"title": "show rule diff in explorer",

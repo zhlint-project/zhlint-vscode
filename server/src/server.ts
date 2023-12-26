@@ -104,6 +104,7 @@ const defaultSettings: ZhlintSettings = {
 		}
 	},
 	debug: false,
+	enable: true,
 	experimental: {
 		diff: false,
 		config: false,
@@ -114,6 +115,7 @@ const defaultSettings: ZhlintSettings = {
 interface ZhlintSettings {
 	options: Options;
 	debug: boolean;
+	enable: boolean;
 	experimental: {
 		diff: boolean
 		config: boolean
@@ -213,6 +215,7 @@ async function lintMD(textDocument: TextDocument, range?: Range) {
 	const uri = textDocument.uri;
 
 	const settings = await getDocumentSettings(textDocument);
+	if (!settings.enable) return;
 	if (settings.experimental.ignore && fileFilter.ignores(uri)) return;
 
 	const res = getZhlintConfig(textDocument, settings);

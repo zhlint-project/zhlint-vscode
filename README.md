@@ -48,6 +48,7 @@ these feature maybe remove in the future
 |:----|:-----------|:-------:|
 |`zhlint.options`|see [zhlint options](https://zhlint-project.github.io/zhlint/#options),  `logger` is exclude  |`{}`|
 |`zhlint.debug`|print extra message when run zhlint|`false`|
+|`zhlint.enable`|Controls whether zhlint is enabled or not|`true`|
 |`zhlint.experimental.diff` |enable rule diff viewer in explorer |`false`|
 |`zhlint.experimental.config`|enable use `.zhlintrc` and `.zhlintignore` to config in workspace |`false`|
 |`zhlint.experimental.ignore`|enable use `.experimental-zhlintignore` to ignore files or directories while linting by specifying one or more glob patterns|`false`|
