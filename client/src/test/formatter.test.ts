@@ -1,4 +1,5 @@
 import * as vscode from 'vscode'
+import { it } from 'mocha'
 import { assertEqualAfterFix } from './helper'
 
 suite('formatter should work', () => {

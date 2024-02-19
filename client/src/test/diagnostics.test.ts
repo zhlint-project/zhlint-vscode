@@ -6,6 +6,7 @@
 import * as assert from 'node:assert'
 import { readFile } from 'node:fs/promises'
 import * as vscode from 'vscode'
+import { it } from 'mocha'
 import { activate, getDocUri } from './helper'
 
 suite('Should get diagnostics', () => {

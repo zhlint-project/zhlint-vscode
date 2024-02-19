@@ -611,7 +611,7 @@
   },
   {
     "target": "startContent",
-    "message": "此处标点符号需要统一到简体",
+    "message": "此处字符需要统一",
     "range": [
       20,
       18,
@@ -621,7 +621,7 @@
   },
   {
     "target": "endContent",
-    "message": "此处标点符号需要统一到简体",
+    "message": "此处字符需要统一",
     "range": [
       20,
       24,
@@ -651,7 +651,7 @@
   },
   {
     "target": "startContent",
-    "message": "此处标点符号需要统一到简体",
+    "message": "此处字符需要统一",
     "range": [
       20,
       20,
@@ -661,7 +661,7 @@
   },
   {
     "target": "endContent",
-    "message": "此处标点符号需要统一到简体",
+    "message": "此处字符需要统一",
     "range": [
       20,
       22,

@@ -1,3 +1,4 @@
+import { it } from 'mocha'
 import { assertEqualAfterFix } from './helper'
 
 suite('zhlintrc, zhlintignore should work', () => {
