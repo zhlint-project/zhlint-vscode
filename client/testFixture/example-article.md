@@ -12,7 +12,6 @@ Vue (读音 /vjuː/，类似于 **view**) 是一套用于构建用户界面的**
 
 如果你想在深入学习 Vue 之前对它有更多了解，我们<a id="modal-player" href="#">制作了一个视频</a>，带您了解其核心概念和一个示例工程。
 
-
 如果你已经是有经验的前端开发者，想知道 Vue 与其它库/框架有哪些区别，请查看[对比其它框架](comparison.html)。
 
 ## 起步
@@ -53,7 +52,7 @@ Vue.js 的核心是一个允许采用简洁的模板语法来声明式地将数�
 </div>
 ```
 ``` js
-var app = new Vue({
+const app = new Vue({
   el: '#app',
   data: {
     message: 'Hello Vue!'
@@ -86,10 +85,10 @@ var app = new Vue({
 </div>
 ```
 ``` js
-var app2 = new Vue({
+const app2 = new Vue({
   el: '#app-2',
   data: {
-    message: '页面加载于 ' + new Date().toLocaleString()
+    message: `页面加载于 ${new Date().toLocaleString()}`
   }
 })
 ```
@@ -125,7 +124,7 @@ var app2 = new Vue({
 </div>
 ```
 ``` js
-var app3 = new Vue({
+const app3 = new Vue({
   el: '#app-3',
   data: {
     seen: true
@@ -162,7 +161,7 @@ var app3 = new Vue({
 </div>
 ```
 ``` js
-var app4 = new Vue({
+const app4 = new Vue({
   el: '#app-4',
   data: {
     todos: [
@@ -210,13 +209,13 @@ var app4 = new Vue({
 </div>
 ```
 ``` js
-var app5 = new Vue({
+const app5 = new Vue({
   el: '#app-5',
   data: {
     message: 'Hello Vue.js!'
   },
   methods: {
-    reverseMessage: function () {
+    reverseMessage() {
       this.message = this.message.split('').reverse().join('')
     }
   }
@@ -253,7 +252,7 @@ Vue 还提供了 `v-model` 指令，它能轻松实现表单输入和应用状�
 </div>
 ```
 ``` js
-var app6 = new Vue({
+const app6 = new Vue({
   el: '#app-6',
   data: {
     message: 'Hello Vue!'
@@ -291,7 +290,7 @@ Vue.component('todo-item', {
   template: '<li>这是个待办项</li>'
 })
 
-var app = new Vue(...)
+const app = new Vue()
 ```
 
 现在你可以用它构建另一个组件模板：
@@ -341,7 +340,7 @@ Vue.component('todo-item', {
   template: '<li>{{ todo.text }}</li>'
 })
 
-var app7 = new Vue({
+const app7 = new Vue({
   el: '#app-7',
   data: {
     groceryList: [

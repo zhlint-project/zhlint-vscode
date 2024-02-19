@@ -27,9 +27,9 @@ case-ellipsis：中文...中文...a...b... 中文 ... 中文 ... a ... b ...
 case-raw：`AC`/`DC`
 
 case-linebreak：
-this is  
-a  
-multiline  
+this is
+a
+multiline
 text
 
 3 minite(s) left

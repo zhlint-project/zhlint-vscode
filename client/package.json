@@ -1,19 +1,19 @@
 {
-	"name": "lsp-zhlint-client",
-	"description": "VSCode part of markdown language server with zhlint",
-	"author": "kkopite",
-	"license": "MIT",
-	"version": "1.0.6",
-	"publisher": "kkopite",
-	"engines": {
-		"vscode": "^1.75.0"
-	},
-	"dependencies": {
-		"vscode-languageclient": "^8.1.0"
-	},
-	"devDependencies": {
-		"@types/glob": "^8.1.0",
-		"@types/vscode": "^1.75.1",
-		"@vscode/test-electron": "^2.3.6"
-	}
+  "publisher": "kkopite",
+  "name": "lsp-zhlint-client",
+  "version": "1.0.6",
+  "description": "VSCode part of markdown language server with zhlint",
+  "author": "kkopite",
+  "license": "MIT",
+  "engines": {
+    "vscode": "^1.75.0"
+  },
+  "dependencies": {
+    "vscode-languageclient": "^8.1.0"
+  },
+  "devDependencies": {
+    "@types/glob": "^8.1.0",
+    "@types/vscode": "^1.75.1",
+    "@vscode/test-electron": "^2.3.9"
+  }
 }

@@ -54,8 +54,7 @@ jobs:
       - name: Build
         run: npm run compile
 
-
       - name: Test
         run: npm run test
         env:
-          DISPLAY: ":99.0"
+          DISPLAY: ':99.0'

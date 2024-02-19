@@ -1,192 +1,193 @@
 {
-	"name": "zhlint",
-	"description": "zhlint vscode extension",
-	"author": "kkopite",
-	"license": "MIT",
-	"version": "1.0.6",
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/zhlint-project/zhlint-vscode"
-	},
-	"publisher": "kkopite",
-	"categories": [
-		"Linters",
-		"Formatters"
-	],
-	"keywords": [
-		"zhlint"
-	],
-	"engines": {
-		"vscode": "^1.75.0"
-	},
-	"activationEvents": [
-		"onLanguage:markdown"
-	],
-	"main": "./client/out/extension",
-	"icon": "res/icon.png",
-	"contributes": {
-		"configuration": {
-			"type": "object",
-			"title": "zhlint",
-			"properties": {
-				"zhlint.trace.server": {
-					"scope": "window",
-					"type": "string",
-					"enum": [
-						"off",
-						"messages",
-						"verbose"
-					],
-					"default": "off",
-					"description": "Traces the communication between VS Code and the language server."
-				},
-				"zhlint.enable": {
-					"type": "boolean",
-					"default": true,
-					"title": "Enable zhlint",
-					"description": "Controls whether zhlint is enabled or not."
-				},
-				"zhlint.experimental.diff": {
-					"type": "boolean",
-					"title": "show rule diff in explorer",
-					"description": "This is an experimental feature, it maybe remove",
-					"default": false
-				},
-				"zhlint.experimental.config": {
-					"type": "boolean",
-					"title": "use .zhlintrc and .zhlintignore in workspace",
-					"description": "This is an experimental feature, it maybe remove",
-					"default": false
-				},
-				"zhlint.experimental.ignore": {
-					"type": "boolean",
-					"title": "enable ignore by use .experimental-zhlintignore",
-					"description": "You can configure zhlint to ignore certain files and directories while linting by specifying one or more glob patterns",
-					"default": false
-				},
-				"zhlint.debug": {
-					"type": "boolean",
-					"default": false
-				},
-				"zhlint.options": {
-					"type": "object",
-					"properties": {
-						"rules": {
-							"$ref": "./zhlint-rules-schema.json",
-							"description": "customize the linting config"
-						},
-						"ignoredCases": {
-							"type": "array",
-							"description": "provide exception cases which you would like to skip.",
-							"items": {
-								"type": "object",
-								"required": [
-									"textStart"
-								],
-								"properties": {
-									"prefix": {
-										"type": "string"
-									},
-									"suffix": {
-										"type": "string"
-									},
-									"textStart": {
-										"type": "string"
-									},
-									"textEnd": {
-										"type": "string"
-									}
-								}
-							}
-						},
-						"hyperParse": {
-							"type": "array",
-							"description": "customize the hyper parser by their names. It could be `undefined` which means just use default ignored cases parser, Markdown parser and the Hexo tags parser.",
-							"items": {
-								"type": "string",
-								"enum": [
-									"ignore",
-									"hexo",
-									"vuepress",
-									"markdown"
-								]
-							}
-						}
-					}
-				}
-			}
-		},
-		"languages": [
-			{
-				"id": "jsonc",
-				"filenames": [
-					".zhlintrc"
-				]
-			},
-			{
-				"id": "ignore",
-				"filenames": [
-					".experimental-zhlintignore"
-				]
-			}
-		],
-		"jsonValidation": [
-			{
-				"fileMatch": ".zhlintrc",
-				"url": "./zhlint-json-schema.json"
-			},
-			{
-				"fileMatch": ".zhlintrc.json",
-				"url": "./zhlint-json-schema.json"
-			}
-		],
-		"views": {
-			"explorer": [
-				{
-					"id": "zhlint",
-					"name": "zhlint rules",
-					"icon": "res/icon.png",
-					"when": "config.zhlint.experimental.diff"
-				}
-			]
-		},
-		"menus": {
-			"commandPalette": [
-				{
-					"command": "zhlint.openRuleDiff",
-					"when": "false"
-				}
-			]
-		},
-		"commands": [
-			{
-				"command": "zhlint.openRuleDiff",
-				"category": "zhlint",
-				"title": "Open Diff Rule"
-			}
-		]
-	},
-	"scripts": {
-		"vscode:prepublish": "npm run compile",
-		"compile": "tsc -b",
-		"watch": "tsc -b -w",
-		"lint": "eslint ./client/src ./server/src --ext .ts,.tsx",
-		"lint:fix": "eslint ./client/src ./server/src --ext .ts,.tsx --fix",
-		"postinstall": "cd client && npm install && cd ../server && npm install && cd ..",
-		"test": "sh ./scripts/e2e.sh",
-		"release": "bumpp && npm run publish",
-		"publish": "vsce publish --no-dependencies",
-		"pack": "vsce package --no-dependencies"
-	},
-	"devDependencies": {
-		"@types/mocha": "^9.1.0",
-		"@types/node": "^16.18.34",
-		"@typescript-eslint/eslint-plugin": "^6.7.0",
-		"@typescript-eslint/parser": "^6.7.0",
-		"@vscode/vsce": "^2.22.0",
-		"bumpp": "^9.2.0",
-		"eslint": "^8.35.0",
-		"mocha": "^9.2.1",
-		"typescript": "^5.2.2"
-	}
+  "publisher": "kkopite",
+  "name": "zhlint",
+  "version": "1.0.6",
+  "description": "zhlint vscode extension",
+  "author": "kkopite",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/zhlint-project/zhlint-vscode"
+  },
+  "keywords": [
+    "zhlint"
+  ],
+  "categories": [
+    "Linters",
+    "Formatters"
+  ],
+  "main": "./client/out/extension",
+  "icon": "res/icon.png",
+  "engines": {
+    "vscode": "^1.75.0"
+  },
+  "activationEvents": [
+    "onLanguage:markdown"
+  ],
+  "contributes": {
+    "configuration": {
+      "type": "object",
+      "title": "zhlint",
+      "properties": {
+        "zhlint.trace.server": {
+          "scope": "window",
+          "type": "string",
+          "enum": [
+            "off",
+            "messages",
+            "verbose"
+          ],
+          "default": "off",
+          "description": "Traces the communication between VS Code and the language server."
+        },
+        "zhlint.enable": {
+          "type": "boolean",
+          "default": true,
+          "title": "Enable zhlint",
+          "description": "Controls whether zhlint is enabled or not."
+        },
+        "zhlint.experimental.diff": {
+          "type": "boolean",
+          "title": "show rule diff in explorer",
+          "description": "This is an experimental feature, it maybe remove",
+          "default": false
+        },
+        "zhlint.experimental.config": {
+          "type": "boolean",
+          "title": "use .zhlintrc and .zhlintignore in workspace",
+          "description": "This is an experimental feature, it maybe remove",
+          "default": false
+        },
+        "zhlint.experimental.ignore": {
+          "type": "boolean",
+          "title": "enable ignore by use .experimental-zhlintignore",
+          "description": "You can configure zhlint to ignore certain files and directories while linting by specifying one or more glob patterns",
+          "default": false
+        },
+        "zhlint.debug": {
+          "type": "boolean",
+          "default": false
+        },
+        "zhlint.options": {
+          "type": "object",
+          "properties": {
+            "rules": {
+              "$ref": "./zhlint-rules-schema.json",
+              "description": "customize the linting config"
+            },
+            "ignoredCases": {
+              "type": "array",
+              "description": "provide exception cases which you would like to skip.",
+              "items": {
+                "type": "object",
+                "required": [
+                  "textStart"
+                ],
+                "properties": {
+                  "prefix": {
+                    "type": "string"
+                  },
+                  "suffix": {
+                    "type": "string"
+                  },
+                  "textStart": {
+                    "type": "string"
+                  },
+                  "textEnd": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "hyperParse": {
+              "type": "array",
+              "description": "customize the hyper parser by their names. It could be `undefined` which means just use default ignored cases parser, Markdown parser and the Hexo tags parser.",
+              "items": {
+                "type": "string",
+                "enum": [
+                  "ignore",
+                  "hexo",
+                  "vuepress",
+                  "markdown"
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "languages": [
+      {
+        "id": "jsonc",
+        "filenames": [
+          ".zhlintrc"
+        ]
+      },
+      {
+        "id": "ignore",
+        "filenames": [
+          ".experimental-zhlintignore"
+        ]
+      }
+    ],
+    "jsonValidation": [
+      {
+        "fileMatch": ".zhlintrc",
+        "url": "./zhlint-json-schema.json"
+      },
+      {
+        "fileMatch": ".zhlintrc.json",
+        "url": "./zhlint-json-schema.json"
+      }
+    ],
+    "views": {
+      "explorer": [
+        {
+          "id": "zhlint",
+          "name": "zhlint rules",
+          "icon": "res/icon.png",
+          "when": "config.zhlint.experimental.diff"
+        }
+      ]
+    },
+    "menus": {
+      "commandPalette": [
+        {
+          "command": "zhlint.openRuleDiff",
+          "when": "false"
+        }
+      ]
+    },
+    "commands": [
+      {
+        "command": "zhlint.openRuleDiff",
+        "category": "zhlint",
+        "title": "Open Diff Rule"
+      }
+    ]
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -b",
+    "watch": "tsc -b -w",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "postinstall": "cd client && npm install && cd ../server && npm install && cd ..",
+    "test": "sh ./scripts/e2e.sh",
+    "release": "bumpp && npm run publish",
+    "publish": "vsce publish --no-dependencies",
+    "pack": "vsce package --no-dependencies"
+  },
+  "devDependencies": {
+    "@antfu/eslint-config": "^2.6.4",
+    "@types/mocha": "^9.1.0",
+    "@types/node": "^16.18.34",
+    "@typescript-eslint/eslint-plugin": "^6.7.0",
+    "@typescript-eslint/parser": "^6.7.0",
+    "@vscode/vsce": "^2.22.0",
+    "bumpp": "^9.2.0",
+    "eslint": "^8.56.0",
+    "mocha": "^9.2.1",
+    "typescript": "^5.2.2"
+  }
 }

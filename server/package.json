@@ -1,23 +1,23 @@
 {
-	"name": "lsp-zhlint-server",
-	"description": "markdown language server in node.",
-	"version": "1.0.6",
-	"author": "kkopite",
-	"license": "MIT",
-	"engines": {
-		"node": "*"
-	},
-	"dependencies": {
-		"ignore": "^5.2.4",
-		"vscode-languageserver": "^8.1.0",
-		"vscode-languageserver-textdocument": "^1.0.8",
-		"vscode-uri": "^3.0.8",
-		"zhlint": "^0.7.1"
-	},
-	"scripts": {
-		"postinstall": "patch-package"
-	},
-	"devDependencies": {
-		"patch-package": "^8.0.0"
-	}
+  "name": "lsp-zhlint-server",
+  "version": "1.0.6",
+  "description": "markdown language server in node.",
+  "author": "kkopite",
+  "license": "MIT",
+  "engines": {
+    "node": "*"
+  },
+  "scripts": {
+    "postinstall": "patch-package"
+  },
+  "dependencies": {
+    "ignore": "^5.2.4",
+    "vscode-languageserver": "^8.1.0",
+    "vscode-languageserver-textdocument": "^1.0.8",
+    "vscode-uri": "^3.0.8",
+    "zhlint": "^0.7.1"
+  },
+  "devDependencies": {
+    "patch-package": "^8.0.0"
+  }
 }

@@ -2,7 +2,6 @@
 
 <a href="https://marketplace.visualstudio.com/items?itemName=kkopite.zhlint" target="__blank"><img src="https://img.shields.io/visual-studio-marketplace/v/kkopite.zhlint.svg?color=ed5d47&amp;label=VS%20Code%20Marketplace&logo=visual-studio-code" alt="Visual Studio Marketplace Version" /></a>
 
-
 VS Code Extension for [zhlint](https://zhlint-project.github.io/zhlint/#supported-rules)
 
 ## Feature
@@ -28,7 +27,7 @@ Currently，only `.md` files are supported。If you want to support other file t
 ```json
 {
   "files.associations": {
-    "*.txt": "markdown",
+    "*.txt": "markdown"
   }
 }
 ```
@@ -40,7 +39,6 @@ these feature maybe remove in the future
 - support `.zhlintr{c, c.json}` and `.zhlintignore` (**if one of them exist，this extension will use `readRc` and `runWithConfig`，otherwise use `run()` with `zhlint.options` from `settings.json`**)
 - rule diff viewer
 - ignore files or directories with `.experimental-zhlintignore`，checkout [ignore](https://www.npmjs.com/package/ignore)
-
 
 ## options
 

@@ -1,12 +1,12 @@
 {
-	"zhlint.options": {
-		"rules": {
-			"preset": "default"
-		}
-	},
-	"zhlint.experimental.config": true,
-	"zhlint.experimental.ignore": true,
-	"[markdown]": {
-		"editor.defaultFormatter": "kkopite.zhlint"
-	}
+  "zhlint.options": {
+    "rules": {
+      "preset": "default"
+    }
+  },
+  "zhlint.experimental.config": true,
+  "zhlint.experimental.ignore": true,
+  "[markdown]": {
+    "editor.defaultFormatter": "kkopite.zhlint"
+  }
 }

@@ -1,91 +1,91 @@
 {
-	"$schema": "http://json-schema.org/draft-07/schema#",
-	"type": "object",
-	"title": "customize the linting config",
-	"properties": {
-		"preset": {
-			"type": "string",
-			"enum": [
-				"default"
-			],
-			"description": "Custom preset"
-		},
-		"halfWidthPunctuation": {
-			"type": "string",
-			"description": "Convert these punctuations into half-width."
-		},
-		"fullWidthPunctuation": {
-			"type": "string",
-			"description": "Convert these punctuations into full-width."
-		},
-		"adjustedFullWidthPunctuation": {
-			"type": "string",
-			"description": "Treat specific full-width punctuations as half-width for space processing"
-		},
-		"unifiedPunctuation": {
-			"type": "string",
-			"enum": [
-				"simplified",
-				"traditional"
-			],
-			"description": "Convert traditional Chinese punctuations into simplified ones or vice versa"
-		},
-		"skipAbbrs": {
-			"type": "array",
-			"description": "Special case: skip `fullWidthPunctuation` for abbreviations"
-		},
-		"spaceBetweenHalfWidthLetters": {
-			"type": "boolean",
-			"description": "Toggle space between half-width letters"
-		},
-		"noSpaceBetweenFullWidthLetters": {
-			"type": "boolean",
-			"description": "Toggle space between full-width letters"
-		},
-		"spaceBetweenMixedWidthLetters": {
-			"type": "boolean",
-			"description": "Toggle space between mixed-width letters"
-		},
-		"skipZhUnits": {
-			"type": "string",
-			"description": "Special case: skip `spaceBetweenMixedWidthContent` for numbers x Chinese units"
-		},
-		"noSpaceBeforePunctuation": {
-			"type": "boolean",
-			"description": "Toggle space before punctuations"
-		},
-		"spaceAfterHalfWidthPunctuation": {
-			"type": "boolean"
-		},
-		"noSpaceAfterFullWidthPunctuation": {
-			"type": "boolean"
-		},
-		"spaceOutsideHalfQuote": {
-			"type": "boolean"
-		},
-		"noSpaceOutsideFullQuote": {
-			"type": "boolean"
-		},
-		"noSpaceInsideQuote": {
-			"type": "boolean"
-		},
-		"spaceOutsideHalfBracket": {
-			"type": "boolean"
-		},
-		"noSpaceOutsideFullBracket": {
-			"type": "boolean"
-		},
-		"noSpaceInsideBracket": {
-			"type": "boolean"
-		},
-		"spaceOutsideCode": {
-			"type": "boolean"
-		},
-		"noSpaceInsideWrapper": {
-			"type": "boolean"
-		},
-		"trimSpace": {
-			"type": "boolean"
-		}
-	}
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "title": "customize the linting config",
+  "properties": {
+    "preset": {
+      "type": "string",
+      "enum": [
+        "default"
+      ],
+      "description": "Custom preset"
+    },
+    "halfWidthPunctuation": {
+      "type": "string",
+      "description": "Convert these punctuations into half-width."
+    },
+    "fullWidthPunctuation": {
+      "type": "string",
+      "description": "Convert these punctuations into full-width."
+    },
+    "adjustedFullWidthPunctuation": {
+      "type": "string",
+      "description": "Treat specific full-width punctuations as half-width for space processing"
+    },
+    "unifiedPunctuation": {
+      "type": "string",
+      "enum": [
+        "simplified",
+        "traditional"
+      ],
+      "description": "Convert traditional Chinese punctuations into simplified ones or vice versa"
+    },
+    "skipAbbrs": {
+      "type": "array",
+      "description": "Special case: skip `fullWidthPunctuation` for abbreviations"
+    },
+    "spaceBetweenHalfWidthLetters": {
+      "type": "boolean",
+      "description": "Toggle space between half-width letters"
+    },
+    "noSpaceBetweenFullWidthLetters": {
+      "type": "boolean",
+      "description": "Toggle space between full-width letters"
+    },
+    "spaceBetweenMixedWidthLetters": {
+      "type": "boolean",
+      "description": "Toggle space between mixed-width letters"
+    },
+    "skipZhUnits": {
+      "type": "string",
+      "description": "Special case: skip `spaceBetweenMixedWidthContent` for numbers x Chinese units"
+    },
+    "noSpaceBeforePunctuation": {
+      "type": "boolean",
+      "description": "Toggle space before punctuations"
+    },
+    "spaceAfterHalfWidthPunctuation": {
+      "type": "boolean"
+    },
+    "noSpaceAfterFullWidthPunctuation": {
+      "type": "boolean"
+    },
+    "spaceOutsideHalfQuote": {
+      "type": "boolean"
+    },
+    "noSpaceOutsideFullQuote": {
+      "type": "boolean"
+    },
+    "noSpaceInsideQuote": {
+      "type": "boolean"
+    },
+    "spaceOutsideHalfBracket": {
+      "type": "boolean"
+    },
+    "noSpaceOutsideFullBracket": {
+      "type": "boolean"
+    },
+    "noSpaceInsideBracket": {
+      "type": "boolean"
+    },
+    "spaceOutsideCode": {
+      "type": "boolean"
+    },
+    "noSpaceInsideWrapper": {
+      "type": "boolean"
+    },
+    "trimSpace": {
+      "type": "boolean"
+    }
+  }
 }
