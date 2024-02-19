@@ -13,11 +13,11 @@ export default class FileFilter {
 
   reload(params?: DidChangeWatchedFilesParams) {
     if (params) {
-      if (params.changes.findIndex(item => item.uri.endsWith('.experimental-zhlintignore')) === -1)
+      if (params.changes.findIndex(item => item.uri.endsWith('.zhlintignore')) === -1)
         return
     }
 
-    const file = resolve('.', '.experimental-zhlintignore')
+    const file = resolve('.', '.zhlintignore')
     if (existsSync(file)) {
       const content = readFileSync(file, 'utf-8')
       console.log('filter content', content)

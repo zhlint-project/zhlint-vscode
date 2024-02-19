@@ -15,7 +15,7 @@
     "vscode-languageserver": "^8.1.0",
     "vscode-languageserver-textdocument": "^1.0.8",
     "vscode-uri": "^3.0.8",
-    "zhlint": "^0.7.1"
+    "zhlint": "^0.7.4"
   },
   "devDependencies": {
     "patch-package": "^8.0.0"

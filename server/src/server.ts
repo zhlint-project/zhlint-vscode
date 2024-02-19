@@ -26,7 +26,7 @@ import {
 
 import type { Options } from 'zhlint'
 import { readRc, run, runWithConfig } from 'zhlint'
-import { defaultConfigFilename, defaultIgnoreFilename } from './constants'
+import { defaultCaseIgnoreFilename, defaultConfigFilename, defaultIgnoreFilename } from './constants'
 import FileFilter from './FileFilter'
 
 type Config = ReturnType<typeof readRc>
@@ -52,7 +52,7 @@ connection.onInitialize((params: InitializeParams) => {
   // Does the client support the `workspace/configuration` request?
   // If not, we fall back using global settings.
   hasConfigurationCapability = !!(
-		capabilities.workspace && !!capabilities.workspace.configuration
+    capabilities.workspace && !!capabilities.workspace.configuration
   )
   hasWorkspaceFolderCapability = !!(
     capabilities.workspace && !!capabilities.workspace.workspaceFolders
@@ -108,8 +108,6 @@ const defaultSettings: ZhlintSettings = {
   enable: true,
   experimental: {
     diff: false,
-    config: false,
-    ignore: false,
   },
 }
 
@@ -119,8 +117,6 @@ interface ZhlintSettings {
   enable: boolean
   experimental: {
     diff: boolean
-    config: boolean
-    ignore: boolean
   }
 }
 let globalSettings: ZhlintSettings = defaultSettings
@@ -134,9 +130,7 @@ connection.onDidChangeConfiguration((change) => {
     documentSettings.clear()
   }
   else {
-    globalSettings = <ZhlintSettings>(
-			(change.settings.zhlint || defaultSettings)
-		)
+    globalSettings = <ZhlintSettings>((change.settings.zhlint || defaultSettings))
   }
 
   // Revalidate all open text documents
@@ -148,15 +142,19 @@ function checkZhlintConfig(_textDocument: TextDocument) {
 
   const result: {
     config?: string
-    ignore?: string
-  } = {}
+    caseIgnore: string
+    fileIgnore: string
+  } = {
+    caseIgnore: defaultCaseIgnoreFilename,
+    fileIgnore: defaultIgnoreFilename,
+  }
 
   result.config = defaultConfigFilename.find((filename) => {
     return existsSync(resolve(dir, filename))
   })
-  const ignore = resolve(dir, defaultIgnoreFilename)
-  if (existsSync(ignore))
-    result.ignore = defaultIgnoreFilename
+  const caseIgnore = resolve(dir, defaultCaseIgnoreFilename)
+  if (existsSync(caseIgnore))
+    result.caseIgnore = caseIgnore
 
   return result
 }
@@ -164,9 +162,9 @@ function checkZhlintConfig(_textDocument: TextDocument) {
 function getZhlintConfig(textDocument: TextDocument, options: ZhlintSettings): { type: 'option', options: Options } | { type: 'config', config: Config } {
   const result = checkZhlintConfig(textDocument)
 
-  if (options.experimental.config && (result.config || result.ignore)) {
+  if (result.config) {
     if (!localZhlintConfig)
-      localZhlintConfig = readRc('.', result.config || defaultConfigFilename[0], result.ignore || defaultIgnoreFilename, console)
+      localZhlintConfig = readRc('.', result.config || defaultConfigFilename[0], result.fileIgnore, result.caseIgnore, console)
 
     return {
       type: 'config',
@@ -216,7 +214,7 @@ async function lintMD(textDocument: TextDocument, range?: Range) {
   const settings = await getDocumentSettings(textDocument)
   if (!settings.enable)
     return
-  if (settings.experimental.ignore && fileFilter.ignores(uri))
+  if (fileFilter.ignores(uri))
     return
 
   const res = getZhlintConfig(textDocument, settings)
@@ -277,7 +275,8 @@ async function validateTextDocument(textDocument: TextDocument): Promise<void> {
   })
   connection.sendDiagnostics({ uri: textDocument.uri, diagnostics })
   connection.sendNotification('zhlint/rules', {
-    diff: output.diff,
+    // diff: output.diff,
+    diff: [],
     origin: output.origin,
     result: output.result,
     uri: textDocument.uri,

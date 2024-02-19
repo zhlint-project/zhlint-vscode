@@ -52,18 +52,6 @@
           "description": "This is an experimental feature, it maybe remove",
           "default": false
         },
-        "zhlint.experimental.config": {
-          "type": "boolean",
-          "title": "use .zhlintrc and .zhlintignore in workspace",
-          "description": "This is an experimental feature, it maybe remove",
-          "default": false
-        },
-        "zhlint.experimental.ignore": {
-          "type": "boolean",
-          "title": "enable ignore by use .experimental-zhlintignore",
-          "description": "You can configure zhlint to ignore certain files and directories while linting by specifying one or more glob patterns",
-          "default": false
-        },
         "zhlint.debug": {
           "type": "boolean",
           "default": false
@@ -126,7 +114,7 @@
       {
         "id": "ignore",
         "filenames": [
-          ".experimental-zhlintignore"
+          ".zhlintignore"
         ]
       }
     ],
@@ -180,14 +168,12 @@
   },
   "devDependencies": {
     "@antfu/eslint-config": "^2.6.4",
-    "@types/mocha": "^9.1.0",
-    "@types/node": "^16.18.34",
-    "@typescript-eslint/eslint-plugin": "^6.7.0",
-    "@typescript-eslint/parser": "^6.7.0",
+    "@types/mocha": "^9.1.1",
+    "@types/node": "^16.18.82",
     "@vscode/vsce": "^2.22.0",
     "bumpp": "^9.2.0",
     "eslint": "^8.56.0",
-    "mocha": "^9.2.1",
-    "typescript": "^5.2.2"
+    "mocha": "^9.2.2",
+    "typescript": "^5.3.3"
   }
 }

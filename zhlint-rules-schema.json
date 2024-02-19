@@ -12,15 +12,18 @@
     },
     "halfWidthPunctuation": {
       "type": "string",
-      "description": "Convert these punctuations into half-width."
+      "description": "Convert these punctuations into half-width.",
+      "default": "()"
     },
     "fullWidthPunctuation": {
       "type": "string",
-      "description": "Convert these punctuations into full-width."
+      "description": "Convert these punctuations into full-width.",
+      "default": "，。：；？！“”‘’"
     },
     "adjustedFullWidthPunctuation": {
       "type": "string",
-      "description": "Treat specific full-width punctuations as half-width for space processing"
+      "description": "Treat specific full-width punctuations as half-width for space processing",
+      "default": "“”‘’"
     },
     "unifiedPunctuation": {
       "type": "string",
@@ -28,64 +31,101 @@
         "simplified",
         "traditional"
       ],
-      "description": "Convert traditional Chinese punctuations into simplified ones or vice versa"
+      "description": "Convert traditional Chinese punctuations into simplified ones or vice versa",
+      "default": "simplified"
     },
     "skipAbbrs": {
       "type": "array",
+      "allOf": [
+        {
+          "type": "string"
+        }
+      ],
+      "default": ["Mr.", "Mrs.", "Dr.", "Jr.", "Sr.", "vs.", "etc.", "i.e.", "e.g.", "a.k.a"],
       "description": "Special case: skip `fullWidthPunctuation` for abbreviations"
     },
     "spaceBetweenHalfWidthLetters": {
       "type": "boolean",
-      "description": "Toggle space between half-width letters"
+      "description": "Toggle space between half-width letters, true for one space undefined do nothing",
+      "default": true
     },
     "noSpaceBetweenFullWidthLetters": {
       "type": "boolean",
-      "description": "Toggle space between full-width letters"
+      "description": "Toggle space between full-width letters, true for zero space undefined do nothing",
+      "default": true
     },
     "spaceBetweenMixedWidthLetters": {
       "type": "boolean",
-      "description": "Toggle space between mixed-width letters"
+      "description": "Toggle space between mixed-width letters, true for one space false for zero space and undefined do nothing",
+      "default": true
     },
     "skipZhUnits": {
       "type": "string",
-      "description": "Special case: skip `spaceBetweenMixedWidthContent` for numbers x Chinese units"
+      "description": "Special case: skip `spaceBetweenMixedWidthContent` for numbers x Chinese units",
+      "default": "年月日天号时分秒"
     },
     "noSpaceBeforePunctuation": {
       "type": "boolean",
-      "description": "Toggle space before punctuations"
+      "description": "Toggle space before punctuations, true for zero space undefined do nothing",
+      "default": true
     },
     "spaceAfterHalfWidthPunctuation": {
-      "type": "boolean"
+      "type": "boolean",
+      "default": true,
+      "description": "Toggle space after half-width punctuations, true for one space, false for zero space and undefined do nothing"
     },
     "noSpaceAfterFullWidthPunctuation": {
-      "type": "boolean"
+      "type": "boolean",
+      "default": true,
+      "description": "Toggle space after full-width punctuations, true for zero space, undefined do nothing"
     },
     "spaceOutsideHalfQuote": {
-      "type": "boolean"
+      "type": "boolean",
+      "default": true,
+      "description": "Toggle space outside half-width quotes, true for one space, false for zero space and undefined do nothing"
     },
     "noSpaceOutsideFullQuote": {
-      "type": "boolean"
+      "type": "boolean",
+      "default": true,
+      "description": "Toggle space outside full-width quotes, true for zero space, undefined do nothing"
     },
     "noSpaceInsideQuote": {
-      "type": "boolean"
+      "type": "boolean",
+      "default": true,
+      "description": "Toggle space inside quotes, true for zero space, undefined do nothing"
     },
-    "spaceOutsideHalfBracket": {
-      "type": "boolean"
+    "spaceOutsideHalfwidthBracket": {
+      "type": "boolean",
+      "default": true,
+      "description": "Toggle space outside half-width brackets, true for one space, false for zero space and undefined do nothing"
     },
-    "noSpaceOutsideFullBracket": {
-      "type": "boolean"
+    "noSpaceOutsideFullwidthBracket": {
+      "type": "boolean",
+      "default": true,
+      "description": "Toggle space outside full-width brackets, true for zero space, undefined do nothing"
     },
     "noSpaceInsideBracket": {
-      "type": "boolean"
+      "type": "boolean",
+      "default": true,
+      "description": "Toggle space inside brackets, true for zero space, undefined do nothing"
     },
     "spaceOutsideCode": {
-      "type": "boolean"
+      "type": "boolean",
+      "default": true,
+      "description": "Toggle space outside code, true for one space, false for zero space and undefined do nothing"
     },
-    "noSpaceInsideWrapper": {
-      "type": "boolean"
+    "noSpaceInsideHyperMark": {
+      "type": "boolean",
+      "default": true,
+      "description": "Toggle space inside hyper mark, true for zero space, undefined do nothing"
     },
     "trimSpace": {
-      "type": "boolean"
+      "type": "boolean",
+      "default": true
+    },
+    "skipPureWestern": {
+      "type": "boolean",
+      "default": true
     }
   }
 }
