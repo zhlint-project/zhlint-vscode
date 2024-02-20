@@ -1,6 +1,6 @@
 {
   "name": "lsp-zhlint-server",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "markdown language server in node.",
   "author": "kkopite",
   "license": "MIT",
