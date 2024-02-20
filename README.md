@@ -32,13 +32,23 @@ Currently，only `.md` files are supported。If you want to support other file t
 }
 ```
 
+## config
+
+this extension will use `readRc` and `runWithConfig` if there has `.zhlintr{c, c.json}`，`.zhlintignore`，`.zhlintcaseignore`，or it will use `run()` with `zhlint.options` in `.vscode/settings.json`
+
 ## Experimental Feature
 
 these feature maybe remove in the future
 
-- support `.zhlintr{c, c.json}` and `.zhlintignore` (**if one of them exist，this extension will use `readRc` and `runWithConfig`，otherwise use `run()` with `zhlint.options` from `settings.json`**)
-- rule diff viewer
-- ignore files or directories with `.experimental-zhlintignore`，checkout [ignore](https://www.npmjs.com/package/ignore)
+### diff viewer
+
+1. set `zhlint.experimental.diff` to `true`
+2. Keep Open for your markdown file(which you want to see the diff)，checkout [How do I make VS Code open files in a new tab？](https://vscode.one/new-tab-vscode/)
+
+![diff viewer](./screenshot/preview.png)
+
+![handle hyper space option](./screenshot/see-rule-diff.png)
+
 
 ## options
 
@@ -48,8 +58,6 @@ these feature maybe remove in the future
 |`zhlint.debug`|print extra message when run zhlint|`false`|
 |`zhlint.enable`|Controls whether zhlint is enabled or not|`true`|
 |`zhlint.experimental.diff` |enable rule diff viewer in explorer |`false`|
-|`zhlint.experimental.config`|enable use `.zhlintrc` and `.zhlintignore` to config in workspace |`false`|
-|`zhlint.experimental.ignore`|enable use `.experimental-zhlintignore` to ignore files or directories while linting by specifying one or more glob patterns|`false`|
 
 ## Dev
 

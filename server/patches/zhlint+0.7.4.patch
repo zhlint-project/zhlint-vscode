@@ -1,0 +1,320 @@
+diff --git a/node_modules/zhlint/lib/rules/case-abbrs.js b/node_modules/zhlint/lib/rules/case-abbrs.js
+index 1777b9a..2f4f247 100644
+--- a/node_modules/zhlint/lib/rules/case-abbrs.js
++++ b/node_modules/zhlint/lib/rules/case-abbrs.js
+@@ -59,7 +59,7 @@ const matchAbbr = (token, group, reversedAbbrChars) => {
+ };
+ const generateHandler = (options) => {
+     const reversedAbbrChars = reverseAbbrsIntoChars(options.skipAbbrs || []);
+-    return (token, _, group) => {
++    const handleCaseAbbrs = (token, _, group) => {
+         // skip non-dot tokens
+         if (token.value !== '.') {
+             return;
+@@ -78,6 +78,7 @@ const generateHandler = (options) => {
+             (0, util_1.removeValidationOnTarget)(token, report_1.ValidationTarget.VALUE);
+         }
+     };
++		return handleCaseAbbrs;
+ };
+ exports.defaultConfig = {
+     skipAbbrs: defaultSkippedAbbrs
+diff --git a/node_modules/zhlint/lib/rules/case-html-entity.js b/node_modules/zhlint/lib/rules/case-html-entity.js
+index d0b13e6..2ad701a 100644
+--- a/node_modules/zhlint/lib/rules/case-html-entity.js
++++ b/node_modules/zhlint/lib/rules/case-html-entity.js
+@@ -14,7 +14,7 @@ const report_1 = require("../report");
+ const util_1 = require("./util");
+ const generateHandler = (options) => {
+     options;
+-    return (token, _, group) => {
++    const handleCaseHTMLEntiry = (token, _, group) => {
+         // skip non-& tokens
+         if (token.value !== '&') {
+             return;
+@@ -57,6 +57,7 @@ const generateHandler = (options) => {
+             }
+         }
+     };
++		return handleCaseHTMLEntiry;
+ };
+ exports.defaultConfig = {};
+ exports.default = generateHandler;
+diff --git a/node_modules/zhlint/lib/rules/case-linebreak.js b/node_modules/zhlint/lib/rules/case-linebreak.js
+index f5398b4..6e92599 100644
+--- a/node_modules/zhlint/lib/rules/case-linebreak.js
++++ b/node_modules/zhlint/lib/rules/case-linebreak.js
+@@ -12,12 +12,13 @@ const util_1 = require("./util");
+ const generateHandler = (options) => {
+     // do nothing
+     options;
+-    return (token) => {
++    const handleCaseLineBreak = (token) => {
+         if (token.spaceAfter && token.spaceAfter.match(/\n/)) {
+             (0, util_1.removeValidationOnTarget)(token, report_1.ValidationTarget.SPACE_AFTER);
+             token.modifiedSpaceAfter = token.spaceAfter;
+         }
+     };
++		return handleCaseLineBreak;
+ };
+ exports.defaultConfig = {};
+ exports.default = generateHandler;
+diff --git a/node_modules/zhlint/lib/rules/case-pure-western.js b/node_modules/zhlint/lib/rules/case-pure-western.js
+index d63523a..c1fca15 100644
+--- a/node_modules/zhlint/lib/rules/case-pure-western.js
++++ b/node_modules/zhlint/lib/rules/case-pure-western.js
+@@ -42,7 +42,7 @@ const resetValidation = (group) => {
+ };
+ const generateHandler = (options) => {
+     const skipPureWestern = options === null || options === void 0 ? void 0 : options.skipPureWestern;
+-    return (_, index, group) => {
++    const handleCasePureWestern = (_, index, group) => {
+         if (!skipPureWestern) {
+             return;
+         }
+@@ -53,6 +53,7 @@ const generateHandler = (options) => {
+             }
+         }
+     };
++		return handleCasePureWestern;
+ };
+ exports.defaultConfig = {
+     skipPureWestern: true
+diff --git a/node_modules/zhlint/lib/rules/case-zh-units.js b/node_modules/zhlint/lib/rules/case-zh-units.js
+index 4987920..fb5537f 100644
+--- a/node_modules/zhlint/lib/rules/case-zh-units.js
++++ b/node_modules/zhlint/lib/rules/case-zh-units.js
+@@ -18,7 +18,7 @@ const generateHandler = (options) => {
+         .filter((x) => (0, parser_1.checkCharType)(x) === parser_1.CharType.CJK_CHAR)
+         .join('');
+     const unitMatcher = new RegExp(`^[${matcherStr}]`);
+-    return (token, _, group) => {
++    const handleZhUnits = (token, _, group) => {
+         // make sure the value is a number
+         if (token.type === parser_1.CharType.WESTERN_LETTER && token.value.match(/^\d+$/)) {
+             // make sure the value after is a Chinese unit
+@@ -55,6 +55,7 @@ const generateHandler = (options) => {
+             }
+         }
+     };
++		return handleZhUnits;
+ };
+ exports.defaultConfig = {
+     skipZhUnits: defaultSkippedZhUnits
+diff --git a/node_modules/zhlint/lib/rules/space-bracket.js b/node_modules/zhlint/lib/rules/space-bracket.js
+index ec2a2b5..772cac1 100644
+--- a/node_modules/zhlint/lib/rules/space-bracket.js
++++ b/node_modules/zhlint/lib/rules/space-bracket.js
+@@ -60,7 +60,7 @@ const generateHandler = (options) => {
+     const spaceOutsideHalfBracketOption = options.spaceOutsideHalfwidthBracket;
+     const noSpaceOutsideFullBracketOption = options.noSpaceOutsideFullwidthBracket;
+     const adjustedFullWidthOption = options.adjustedFullwidthPunctuation || '';
+-    return (token, _, group) => {
++    const handleSpaceBracket = (token, _, group) => {
+         // skip non-bracket tokens
+         if (token.type !== parser_1.HyperTokenType.BRACKET_MARK) {
+             return;
+@@ -184,6 +184,7 @@ const generateHandler = (options) => {
+             }
+         }
+     };
++		return handleSpaceBracket;
+ };
+ exports.defaultConfig = {
+     spaceOutsideHalfBracket: true,
+diff --git a/node_modules/zhlint/lib/rules/space-hyper-mark.js b/node_modules/zhlint/lib/rules/space-hyper-mark.js
+index 112e2b5..6975d6e 100644
+--- a/node_modules/zhlint/lib/rules/space-hyper-mark.js
++++ b/node_modules/zhlint/lib/rules/space-hyper-mark.js
+@@ -28,7 +28,7 @@ const parser_1 = require("../parser");
+ const messages_1 = require("./messages");
+ const generateHandler = (options) => {
+     const noSpaceInsideMarkOption = options === null || options === void 0 ? void 0 : options.noSpaceInsideHyperMark;
+-    return (token, _, group) => {
++    const handleSpaceHyperMark = (token, _, group) => {
+         // skip if there is no options
+         if (!noSpaceInsideMarkOption) {
+             return;
+@@ -57,6 +57,7 @@ const generateHandler = (options) => {
+             (0, util_1.checkSpaceAfter)(token, '', messages_1.MARKDOWN_NOSPACE_INSIDE);
+         }
+     };
++		return handleSpaceHyperMark;
+ };
+ exports.defaultConfig = {
+     noSpaceInsideMark: true
+diff --git a/node_modules/zhlint/lib/rules/space-letter.js b/node_modules/zhlint/lib/rules/space-letter.js
+index 5bac642..0f8e8ac 100644
+--- a/node_modules/zhlint/lib/rules/space-letter.js
++++ b/node_modules/zhlint/lib/rules/space-letter.js
+@@ -38,7 +38,7 @@ const generateHandler = (options) => {
+     const onlyOneBetweenHalfwidthContentOption = options === null || options === void 0 ? void 0 : options.spaceBetweenHalfwidthContent;
+     const noBetweenFullwidthContentOption = options === null || options === void 0 ? void 0 : options.noSpaceBetweenFullwidthContent;
+     const betweenMixedwidthContentOption = options === null || options === void 0 ? void 0 : options.spaceBetweenMixedwidthContent;
+-    return (token, _, group) => {
++    const handleSpaceLetter = (token, _, group) => {
+         // skip non-content tokens
+         if (!(0, parser_1.isLetterType)(token.type)) {
+             return;
+@@ -91,6 +91,7 @@ const generateHandler = (options) => {
+             (0, util_1.checkSpaceAfter)(spaceHost, spaceAfter, message);
+         }
+     };
++		return handleSpaceLetter;
+ };
+ exports.defaultConfig = {
+     spaceBetweenHalfWidthContent: true,
+diff --git a/node_modules/zhlint/lib/rules/space-punctuation.js b/node_modules/zhlint/lib/rules/space-punctuation.js
+index 447c6e7..a6b9723 100644
+--- a/node_modules/zhlint/lib/rules/space-punctuation.js
++++ b/node_modules/zhlint/lib/rules/space-punctuation.js
+@@ -37,7 +37,7 @@ const generateHandler = (options) => {
+     const noBeforePunctuationOption = options === null || options === void 0 ? void 0 : options.noSpaceBeforePauseOrStop;
+     const oneAfterHalfWidthPunctuationOption = options === null || options === void 0 ? void 0 : options.spaceAfterHalfwidthPauseOrStop;
+     const noAfterFullWidthPunctuationOption = options === null || options === void 0 ? void 0 : options.noSpaceAfterFullwidthPauseOrStop;
+-    return (token, _, group) => {
++    const handleSpacePunctuation = (token, _, group) => {
+         // skip non-punctuation tokens and non-normal punctuations
+         if (!(0, parser_1.isPauseOrStopType)(token.type)) {
+             return;
+@@ -98,6 +98,7 @@ const generateHandler = (options) => {
+             }
+         }
+     };
++		return handleSpacePunctuation;
+ };
+ exports.defaultConfig = {
+     noSpaceBeforePunctuation: true,
+diff --git a/node_modules/zhlint/lib/rules/space-quotation.js b/node_modules/zhlint/lib/rules/space-quotation.js
+index e5ff781..4028349 100644
+--- a/node_modules/zhlint/lib/rules/space-quotation.js
++++ b/node_modules/zhlint/lib/rules/space-quotation.js
+@@ -36,7 +36,7 @@ const generateHandler = (options) => {
+     const spaceOutsideHalfQuotationOption = options.spaceOutsideHalfwidthQuotation;
+     const noSpaceOutsideFullQuotationOption = options.noSpaceOutsideFullwidthQuotation;
+     const adjustedFullWidthOption = options.adjustedFullwidthPunctuation || '';
+-    return (token, _, group) => {
++    const handleSpaceQuotation = (token, _, group) => {
+         // skip non-group tokens
+         if (token.type !== parser_1.GroupTokenType.GROUP) {
+             return;
+@@ -141,6 +141,7 @@ const generateHandler = (options) => {
+             }
+         }
+     };
++		return handleSpaceQuotation;
+ };
+ exports.defaultConfig = {
+     spaceOutsideHalfwidthQuotation: true,
+diff --git a/node_modules/zhlint/lib/rules/space-trim.js b/node_modules/zhlint/lib/rules/space-trim.js
+index 5bd9a1c..1bd7eb5 100644
+--- a/node_modules/zhlint/lib/rules/space-trim.js
++++ b/node_modules/zhlint/lib/rules/space-trim.js
+@@ -13,7 +13,7 @@ const messages_1 = require("./messages");
+ const util_1 = require("./util");
+ const generateHandler = (options) => {
+     const trimSpaceOption = options === null || options === void 0 ? void 0 : options.trimSpace;
+-    return (token, index, group) => {
++    const handleSpaceTrim = (token, index, group) => {
+         if (!trimSpaceOption) {
+             return;
+         }
+@@ -45,6 +45,7 @@ const generateHandler = (options) => {
+             }
+         }
+     };
++		return handleSpaceTrim;
+ };
+ exports.defaultConfig = {
+     trimSpace: true
+diff --git a/node_modules/zhlint/lib/run.d.ts b/node_modules/zhlint/lib/run.d.ts
+index 45515e3..0a600e2 100644
+--- a/node_modules/zhlint/lib/run.d.ts
++++ b/node_modules/zhlint/lib/run.d.ts
+@@ -15,6 +15,7 @@ export type DebugInfo = {
+     parserErrors: Validation[];
+     ruleErrors: Validation[];
+     ignoredRuleErrors: Validation[];
++		diff: Array<{ ruleName: string, value: string, changed: boolean }>
+ };
+ export type Result = {
+     file?: string;
+diff --git a/node_modules/zhlint/lib/run.js b/node_modules/zhlint/lib/run.js
+index 549e632..00cb169 100644
+--- a/node_modules/zhlint/lib/run.js
++++ b/node_modules/zhlint/lib/run.js
+@@ -65,14 +65,26 @@ const lint = (str, normalizedOptions) => {
+         const result = (0, parser_1.toMutableResult)((0, parser_1.parse)(value, marks), rules);
+         parserErrors.push(...result.errors);
+         const ignoredMarks = (0, ignore_1.default)(value, status.ignoredByRules, logger);
++        const debugDiff = []
+         ruleHandlers.forEach((rule) => {
++					console.log('print date',Date)
++            const now = Date.now();
+             (0, parser_1.travel)(result.tokens, rule);
+-            if (globalThis.__DEV__) {
++            const cost = Date.now() - now;
++            if (globalThis.__DEV__ || globalThis.__DIFF__) {
+                 const currentValue = (0, join_1.default)(result.tokens, start, ignoredMarks, [], [], []);
++								let changed = false
+                 if (lastValue !== currentValue) {
+                     logger.log(`[After process by ${rule.name}]`);
+                     logger.log(currentValue);
++                    changed = true;
+                 }
++								debugDiff.push({
++									ruleName: rule.name,
++									value: currentValue,
++									cost,
++									changed
++								});
+                 lastValue = currentValue;
+             }
+         });
+@@ -82,7 +94,7 @@ const lint = (str, normalizedOptions) => {
+             logger.log(lastValue + '\n');
+         }
+         return Object.assign(Object.assign({}, result), { start,
+-            end, value: lastValue, originValue: value });
++            end, value: lastValue, originValue: value, debugDiff });
+     });
+     const result = (0, replace_block_1.default)(str, modifiedBlocks);
+     const debugInfo = {
+@@ -93,7 +105,36 @@ const lint = (str, normalizedOptions) => {
+         ignoredTokens,
+         parserErrors,
+         ruleErrors,
+-        ignoredRuleErrors
++        ignoredRuleErrors,
++				diff: modifiedBlocks[0].debugDiff.map((_, ruleIndex) => {
++					// ruleIndex 表示第几个 rule
++					const blocks = modifiedBlocks.map((block) => {
++						return {
++							start: block.start,
++							end: block.end,
++							value: block.debugDiff[ruleIndex].value,
++							changed: block.debugDiff[ruleIndex].changed
++						}
++					})
++					const cost = modifiedBlocks.map((block) => block.debugDiff[ruleIndex].cost).reduce((a, b) => a + b, 0);
++					return {
++						blocks,
++						cost,
++						ruleName: modifiedBlocks[0].debugDiff[ruleIndex].ruleName,
++					}
++				}).map((ruleDiff) => {
++					return {
++						cost: ruleDiff.cost,
++						ruleName: ruleDiff.ruleName,
++						changed: !!ruleDiff.blocks.find((block) => block.changed),
++						value: (0, replace_block_1.default)(str, ruleDiff.blocks).value,
++					}
++				}).map((ruleDiff, index, arr) => {
++					return {
++						...ruleDiff,
++						lastValue: index === 0 ? str : arr[index - 1].value
++					}
++				})
+     };
+     return {
+         origin: str,

@@ -275,8 +275,7 @@ async function validateTextDocument(textDocument: TextDocument): Promise<void> {
   })
   connection.sendDiagnostics({ uri: textDocument.uri, diagnostics })
   connection.sendNotification('zhlint/rules', {
-    // diff: output.diff,
-    diff: [],
+    diff: output.__debug__?.diff || [],
     origin: output.origin,
     result: output.result,
     uri: textDocument.uri,

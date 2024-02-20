@@ -27,7 +27,7 @@ export class RuleNodeProvider implements vscode.TreeDataProvider<RuleNode> {
         'vscode.diff',
         this.createZhlintUri(this.activeEditorUri || '', diff.diff, true),
         this.createZhlintUri(this.activeEditorUri || '', diff.diff, false),
-`parse: ${diff.diff.ruleName}`,
+				`parse: ${diff.diff.ruleName}`,
       )
     }))
     this.handleChangeActiveEditor(vscode.window.activeTextEditor)
