@@ -8,7 +8,6 @@ suite('formatter should work', () => {
       'example-units',
       'example-vuepress',
     ]
-
     for (const name of names)
       await assertEqualAfterFix(name)
   })

@@ -26,10 +26,10 @@ export function run(): Promise<void> {
 
       try {
         // Run the mocha test
-				mocha.run((failures) => {
-					if (failures > 0)
+        mocha.run((failures) => {
+          if (failures > 0)
             reject(new Error(`${failures} tests failed.`))
-					else
+          else
             resolve()
         })
       }

@@ -5,10 +5,11 @@ module.exports = antfu({
   rules: {
     'style/indent': 'off',
     'style/no-tabs': 'off',
-    'node/prefer-global/process': 'off',
+    'no-console': 'off',
+		'node/prefer-global/process': 'off',
   },
   markdown: false,
-  files: [
+  ignores: [
     '.gitignore',
     '.eslintignore',
   ],
