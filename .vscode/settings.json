@@ -12,7 +12,7 @@
       "preset": "default"
     }
   },
-  "zhlint.experimental.ignore": true,
+  "zhlint.experimental.diff": true,
 
   // Enable the ESlint flat config support
   "eslint.experimental.useFlatConfig": true,
