@@ -65,6 +65,15 @@ export function activate(context: vscode.ExtensionContext) {
 
   const ruleProvider = new RuleNodeProvider(context, client)
   ruleProvider.register()
+
+	context.subscriptions.push(client.onNotification('getWorkspace', (uri: string) => {
+		const folder = vscode.workspace.getWorkspaceFolder(vscode.Uri.parse(uri))
+		console.log('find workspace', uri, folder)
+		if (folder)
+			client.sendNotification('onHandleWorkspace', [uri, folder.uri.toString()])
+		else
+			client.sendNotification('onHandleWorkspace')
+	}))
 }
 
 export function deactivate(): Thenable<void> | undefined {

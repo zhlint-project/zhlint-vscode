@@ -68,3 +68,8 @@ these feature maybe remove in the future
 - Select `Launch Client` from the drop down (if it is not already)。
 - Press ▷ to run the launch config (F5)。
 - Select `Attach to Server` from the drop down，press F5 to attach the debugger to the server
+
+## TODO
+
+- [ ] support multi workspaces
+- [ ] prefer use local zhlint

@@ -10,7 +10,8 @@
     "url": "https://github.com/zhlint-project/zhlint-vscode"
   },
   "keywords": [
-    "zhlint"
+    "zhlint",
+    "multi-root ready"
   ],
   "categories": [
     "Linters",
@@ -30,7 +31,7 @@
       "title": "zhlint",
       "properties": {
         "zhlint.trace.server": {
-          "scope": "window",
+          "scope": "resource",
           "type": "string",
           "enum": [
             "off",
@@ -41,22 +42,26 @@
           "description": "Traces the communication between VS Code and the language server."
         },
         "zhlint.enable": {
+          "scope": "resource",
           "type": "boolean",
           "default": true,
           "title": "Enable zhlint",
           "description": "Controls whether zhlint is enabled or not."
         },
         "zhlint.experimental.diff": {
+          "scope": "resource",
           "type": "boolean",
           "title": "show rule diff in explorer",
           "description": "This is an experimental feature, it maybe remove",
           "default": false
         },
         "zhlint.debug": {
+          "scope": "resource",
           "type": "boolean",
           "default": false
         },
         "zhlint.options": {
+          "scope": "resource",
           "type": "object",
           "properties": {
             "rules": {

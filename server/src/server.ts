@@ -26,14 +26,18 @@ import {
 
 import type { Options } from 'zhlint'
 import { readRc, run, runWithConfig } from 'zhlint'
+import { URI } from 'vscode-uri'
 import { defaultCaseIgnoreFilename, defaultConfigFilename, defaultIgnoreFilename } from './constants'
 import FileFilter from './FileFilter'
+import { getWorkspaceFolderRoot } from './utils'
 
 type Config = ReturnType<typeof readRc>
 
 // Create a connection for the server, using Node's IPC as a transport.
 // Also include all preview / proposed LSP features.
 const connection = createConnection(ProposedFeatures.all)
+
+connection.workspace.getWorkspaceFolders()
 
 // Create a simple text document manager.
 const documents: TextDocuments<TextDocument> = new TextDocuments(TextDocument)
@@ -44,7 +48,7 @@ let _hasDiagnosticRelatedInformationCapability = false
 
 let localZhlintConfig: Config | null = null
 
-const fileFilter = new FileFilter()
+const fileFilter = new FileFilter(connection)
 
 connection.onInitialize((params: InitializeParams) => {
   const capabilities = params.capabilities
@@ -80,6 +84,7 @@ connection.onInitialize((params: InitializeParams) => {
       },
     }
   }
+
   return result
 })
 
@@ -137,16 +142,17 @@ connection.onDidChangeConfiguration((change) => {
   documents.all().forEach(validateTextDocument)
 })
 
-function checkZhlintConfig(_textDocument: TextDocument) {
-  const dir = resolve('.')
-
+async function checkZhlintConfig(_textDocument: TextDocument) {
+  const dir = await getWorkspaceFolderRoot(connection, _textDocument.uri)
   const result: {
     config?: string
     caseIgnore: string
     fileIgnore: string
+		root: string
   } = {
     caseIgnore: defaultCaseIgnoreFilename,
     fileIgnore: defaultIgnoreFilename,
+		root: dir,
   }
 
   result.config = defaultConfigFilename.find((filename) => {
@@ -159,12 +165,12 @@ function checkZhlintConfig(_textDocument: TextDocument) {
   return result
 }
 
-function getZhlintConfig(textDocument: TextDocument, options: ZhlintSettings): { type: 'option', options: Options } | { type: 'config', config: Config } {
-  const result = checkZhlintConfig(textDocument)
+async function getZhlintConfig(textDocument: TextDocument, options: ZhlintSettings): Promise<{ type: 'option', options: Options } | { type: 'config', config: Config }> {
+  const result = await checkZhlintConfig(textDocument)
 
   if (result.config) {
     if (!localZhlintConfig)
-      localZhlintConfig = readRc('.', result.config || defaultConfigFilename[0], result.fileIgnore, result.caseIgnore, console)
+      localZhlintConfig = readRc(result.root, result.config || defaultConfigFilename[0], result.fileIgnore, result.caseIgnore, console)
 
     return {
       type: 'config',
@@ -217,7 +223,7 @@ async function lintMD(textDocument: TextDocument, range?: Range) {
   if (fileFilter.ignores(uri))
     return
 
-  const res = getZhlintConfig(textDocument, settings)
+  const res = await getZhlintConfig(textDocument, settings)
   if (settings.debug)
     console.log('get zhlint config', res, settings)
 
